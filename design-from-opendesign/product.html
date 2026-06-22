@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMD Ryzen 7 7800X3D — КОМПОНЕНТА</title>
+<style>
+  :root {
+    --bg: #f5f4ed;
+    --surface: #faf9f5;
+    --surface-warm: #e8e6dc;
+    --fg: #141413;
+    --fg-2: #3d3d3a;
+    --muted: #5e5d59;
+    --meta: #87867f;
+    --border: #f0eee6;
+    --border-soft: #e8e6dc;
+    --accent: #c96442;
+    --accent-on: #faf9f5;
+    --success: #17a34a;
+    --warn: #eab308;
+    --font-display: Georgia, "Times New Roman", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    --font-mono: ui-monospace, "JetBrains Mono", Menlo, monospace;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --elev-ring: 0 0 0 1px var(--border);
+    --elev-raised: rgba(0,0,0,0.05) 0 4px 24px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--fg); }
+  body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  input { font: inherit; }
+
+  /* ── Topnav (shared) ──────────────────────────────────────── */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(245,244,237,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topnav-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 32px;
+    align-items: center;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .brand-dot { color: var(--accent); }
+  .nav-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    max-width: 520px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .nav-search svg { color: var(--meta); flex-shrink: 0; }
+  .nav-search input {
+    border: none; background: none; outline: none;
+    flex: 1; color: var(--fg); font-size: 14px;
+  }
+  .nav-search input::placeholder { color: var(--meta); }
+  .nav-actions {
+    display: flex; align-items: center; gap: 4px;
+  }
+  .nav-action {
+    position: relative;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--fg-2);
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px;
+    transition: background 150ms;
+  }
+  .nav-action:hover { background: var(--surface); }
+  .nav-action .badge-count {
+    position: absolute;
+    top: 2px; right: 2px;
+    background: var(--accent);
+    color: var(--accent-on);
+    font-family: var(--font-mono);
+    font-size: 9px; font-weight: 600;
+    min-width: 14px; height: 14px;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 3px;
+  }
+
+  .shell {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 28px 32px 96px;
+  }
+
+  /* ── Crumbs ───────────────────────────────────────────────── */
+  .crumbs {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--meta);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .crumbs a:hover { color: var(--fg); }
+  .crumbs span { color: var(--fg-2); }
+  .crumbs .sep { margin: 0 8px; opacity: 0.5; }
+
+  /* ── Product main ─────────────────────────────────────────── */
+  .product-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 56px;
+    margin-bottom: 80px;
+  }
+  @media (max-width: 980px) {
+    .product-main { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* Gallery */
+  .gallery { position: sticky; top: 120px; align-self: start; }
+  .gallery-main {
+    aspect-ratio: 1 / 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .gallery-main .product-mark {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(64px, 12vw, 140px);
+    color: var(--fg);
+    opacity: 0.14;
+    letter-spacing: -0.04em;
+    user-select: none;
+  }
+  .gallery-badge {
+    position: absolute;
+    top: 18px; left: 18px;
+    background: var(--accent);
+    color: var(--accent-on);
+    padding: 5px 11px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .gallery-nav {
+    position: absolute;
+    bottom: 18px; right: 18px;
+    display: flex; gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill, 999px);
+    padding: 4px;
+  }
+  .gallery-nav button {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gallery-nav button:hover { background: var(--surface-warm); color: var(--fg); }
+
+  .thumbs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .thumb {
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 150ms;
+    position: relative;
+  }
+  .thumb span {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--fg);
+    opacity: 0.18;
+  }
+  .thumb:hover { border-color: var(--border-soft); }
+  .thumb.active { border-color: var(--accent); border-width: 2px; }
+  .thumb.video span::after {
+    content: "▶";
+    font-style: normal;
+    font-size: 11px;
+    margin-left: 3px;
+    color: var(--accent);
+  }
+
+  /* Info column */
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .info-head {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 18px;
+  }
+  .info-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--meta);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .info-brand .verified {
+    display: inline-flex; align-items: center; gap: 5px;
+    color: var(--success);
+    padding: 2px 8px;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+    font-size: 10px;
+  }
+  .info-brand .sku { margin-left: auto; }
+  .info h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  .info-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .info-rating {
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .stars { color: var(--accent); letter-spacing: 1px; font-size: 14px; }
+  .info-rating strong { color: var(--fg); font-weight: 500; }
+  .info-rating a { color: var(--accent); }
+  .info-meta .dot { width: 3px; height: 3px; background: var(--meta); border-radius: 50%; }
+
+  /* Price block */
+  .price-block {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .price-now {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 42px;
+    color: var(--fg);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .price-now .cur { font-size: 24px; color: var(--muted); margin-left: 4px; }
+  .price-old {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--meta);
+    text-decoration: line-through;
+    margin-bottom: 6px;
+  }
+  .price-save {
+    padding: 4px 10px;
+    background: rgba(23,163,74,0.1);
+    color: var(--success);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  /* Stock + delivery */
+  .info-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+  .info-row .label {
+    color: var(--muted);
+    min-width: 100px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .info-row .label svg { color: var(--meta); }
+  .info-row .value { color: var(--fg); }
+  .stock-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--success);
+  }
+  .stock-pill::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 3px rgba(23,163,74,0.16);
+  }
+
+  /* Add to cart */
+  .buy-block {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .qty {
+    display: flex;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .qty button {
+    width: 44px; height: 52px;
+    color: var(--muted);
+    font-size: 20px;
+    transition: color 150ms, background 150ms;
+  }
+  .qty button:hover { color: var(--accent); background: var(--bg); }
+  .qty input {
+    width: 48px;
+    text-align: center;
+    border: none;
+    background: none;
+    outline: none;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--fg);
+    font-weight: 500;
+  }
+  .btn-buy {
+    padding: 0 24px;
+    height: 52px;
+    background: var(--accent);
+    color: var(--accent-on);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 150ms;
+  }
+  .btn-buy:hover { background: #b85436; }
+
+  .buy-extras {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .btn-ghost {
+    flex: 1;
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--fg-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 150ms;
+  }
+  .btn-ghost:hover { border-color: var(--border-soft); background: var(--surface-warm); }
+  .btn-ghost.active { color: var(--accent); border-color: var(--accent); }
+
+  /* Promo strip */
+  .promo-strip {
+    margin-top: 4px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--fg-2);
+  }
+  .promo-strip strong { color: var(--accent); }
+
+  /* Quick specs */
+  .quick-specs {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px 22px;
+  }
+  .quick-specs h3 {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    letter-spacing: 0.04em;
+  }
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+  .spec-grid div {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .spec-grid div:last-child,
+  .spec-grid div:nth-last-child(2) { border-bottom: none; padding-bottom: 0; }
+  .spec-grid dt { color: var(--muted); }
+  .spec-grid dd { color: var(--fg); font-weight: 500; font-family: var(--font-mono); font-size: 12px; }
+
+  /* ── Tabs + content ───────────────────────────────────────── */
+  .section-tabs {
+    margin-bottom: 80px;
+  }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    transition: color 150ms, border-color 150ms;
+  }
+  .tab .count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--meta);
+    margin-left: 6px;
+  }
+  .tab:hover { color: var(--fg); }
+  .tab.active {
+    color: var(--fg);
+    border-bottom-color: var(--accent);
+    font-weight: 500;
+  }
+  .tab.active .count { color: var(--accent); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .tab-panel h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+  .tab-panel p {
+    color: var(--fg-2);
+    max-width: 760px;
+    margin-bottom: 14px;
+  }
+
+  /* Full specs table */
+  .specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .specs-table tr { border-bottom: 1px solid var(--border); }
+  .specs-table tr:last-child { border-bottom: none; }
+  .specs-table th, .specs-table td {
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 13px;
+    vertical-align: top;
+  }
+  .specs-table th {
+    background: var(--bg);
+    color: var(--muted);
+    font-weight: 500;
+    width: 32%;
+    font-family: var(--font-body);
+  }
+  .specs-table td {
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .specs-group {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 18px;
+    padding: 18px 20px 12px !important;
+    background: var(--surface-warm) !important;
+    color: var(--fg) !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+
+  /* Reviews */
+  .reviews-summary {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 40px;
+    padding: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 32px;
+  }
+  @media (max-width: 720px) {
+    .reviews-summary { grid-template-columns: 1fr; }
+  }
+  .reviews-score {
+    text-align: center;
+    padding-right: 40px;
+    border-right: 1px solid var(--border);
+  }
+  @media (max-width: 720px) {
+    .reviews-score { border-right: none; border-bottom: 1px solid var(--border); padding: 0 0 24px; }
+  }
+  .reviews-score .big {
+    font-family: var(--font-display);
+    font-size: 64px;
+    line-height: 1;
+    color: var(--fg);
+    letter-spacing: -0.03em;
+  }
+  .reviews-score .stars { font-size: 18px; margin: 8px 0 6px; }
+  .reviews-score .count { font-size: 12px; color: var(--meta); font-family: var(--font-mono); }
+
+  .rating-bars { display: flex; flex-direction: column; gap: 8px; }
+  .rating-bar {
+    display: grid;
+    grid-template-columns: 30px 1fr 40px;
+    gap: 12px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .rating-bar .bar {
+    height: 6px;
+    background: var(--surface-warm);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .rating-bar .bar > div {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+  .rating-bar .num { font-family: var(--font-mono); text-align: right; }
+
+  .review-list { display: flex; flex-direction: column; gap: 20px; }
+  .review {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+  .review-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--surface-warm);
+    color: var(--fg);
+    font-family: var(--font-display);
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .review-author {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg);
+  }
+  .review-date {
+    font-size: 11px;
+    color: var(--meta);
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+  }
+  .review-stars {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+  .review-body {
+    color: var(--fg-2);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .review-tags {
+    display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .review-tag {
+    font-size: 11px;
+    color: var(--muted);
+    padding: 3px 9px;
+    background: var(--bg);
+    border-radius: var(--radius-pill, 999px);
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+  .review-tag.pos { color: var(--success); background: rgba(23,163,74,0.08); }
+  .review-tag.neg { color: var(--accent); background: rgba(201,100,66,0.08); }
+
+  /* ── Related ──────────────────────────────────────────────── */
+  .related { margin-top: 16px; }
+  .related-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .related-head h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 28px;
+  }
+  .related-head a {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 1100px) { .related-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .related-grid { grid-template-columns: 1fr; } }
+
+  .mini-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 200ms, box-shadow 200ms;
+  }
+  .mini-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--elev-raised);
+  }
+  .mini-media {
+    aspect-ratio: 4 / 3;
+    background: var(--surface-warm);
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mini-media span {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--fg);
+    opacity: 0.16;
+  }
+  .mini-brand {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--meta);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .mini-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.25;
+  }
+  .mini-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 4px;
+  }
+  .mini-price {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 17px;
+  }
+
+  /* ── Footer ───────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+    padding: 32px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--meta);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────────── TOPNAV ─────────────── -->
+<header class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="brand">КОМПОНЕНТА<span class="brand-dot">.</span></a>
+    <div class="nav-search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input value="Ryzen 7 7800X3D">
+    </div>
+    <nav class="nav-actions">
+      <a class="nav-action" href="#">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>Избранное</span>
+        <span class="badge-count">7</span>
+      </a>
+      <a class="nav-action" href="#">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+        <span>Сравнение</span>
+        <span class="badge-count">3</span>
+      </a>
+      <a class="nav-action" href="cart.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span>Корзина</span>
+        <span class="badge-count">2</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<div class="shell">
+
+  <div class="crumbs">
+    <a href="index.html">Главная</a>
+    <span class="sep">/</span>
+    <a href="catalog.html">Каталог</a>
+    <span class="sep">/</span>
+    <a href="#">Процессоры</a>
+    <span class="sep">/</span>
+    <span>AMD Ryzen 7 7800X3D</span>
+  </div>
+
+  <!-- ─────────────── PRODUCT MAIN ─────────────── -->
+  <section class="product-main">
+
+    <!-- Gallery -->
+    <div class="gallery">
+      <div class="gallery-main">
+        <span class="gallery-badge">−18%</span>
+        <div class="product-mark">ryzen</div>
+        <div class="gallery-nav">
+          <button title="Предыдущее">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);align-self:center;padding:0 4px;">1 / 5</span>
+          <button title="Следующее">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="thumbs">
+        <div class="thumb active"><span>ryz</span></div>
+        <div class="thumb"><span>top</span></div>
+        <div class="thumb"><span>side</span></div>
+        <div class="thumb"><span>box</span></div>
+        <div class="thumb video"><span>rev</span></div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="info">
+      <div class="info-head">
+        <div class="info-brand">
+          <span>AMD</span>
+          <span class="verified">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
+            Официальный дилер
+          </span>
+          <span class="sku">Артикул: CPU-AMD-7800X3D-OEM</span>
+        </div>
+        <h1>AMD Ryzen 7 7800X3D</h1>
+        <div class="info-meta">
+          <span class="info-rating">
+            <span class="stars">★★★★★</span>
+            <strong>4.9</strong>
+            <span>·</span>
+            <a href="#reviews">412 отзывов</a>
+          </span>
+          <span class="dot"></span>
+          <span>Продано 2 184 шт.</span>
+          <span class="dot"></span>
+          <span>Добавили в избранное 1 396 раз</span>
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="price-block">
+        <div class="price-now">36 900<span class="cur">₽</span></div>
+        <div class="price-old">44 990 ₽</div>
+        <div class="price-save">−8 090 ₽</div>
+      </div>
+
+      <!-- Stock + delivery -->
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            Наличие
+          </span>
+          <span class="value stock-pill">В наличии 23 шт. на складе Москва</span>
+        </div>
+        <div class="info-row">
+          <span class="label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Доставка
+          </span>
+          <span class="value">Завтра, 23 июня · СДЭК бесплатно от 30 000 ₽</span>
+        </div>
+        <div class="info-row">
+          <span class="label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Гарантия
+          </span>
+          <span class="value">36 мес. официальной гарантии AMD · расширенная +12 мес. — 2 990 ₽</span>
+        </div>
+        <div class="info-row">
+          <span class="label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Возврат
+          </span>
+          <span class="value">14 дней, в нераспакованной упаковке</span>
+        </div>
+      </div>
+
+      <!-- Buy block -->
+      <div class="buy-block">
+        <div class="qty">
+          <button>−</button>
+          <input value="1">
+          <button>+</button>
+        </div>
+        <a href="cart.html" class="btn-buy">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          В корзину
+        </a>
+      </div>
+
+      <div class="buy-extras">
+        <button class="btn-ghost active">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          В избранном
+        </button>
+        <button class="btn-ghost active">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+          В сравнении
+        </button>
+        <button class="btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Поделиться
+        </button>
+      </div>
+
+      <div class="promo-strip">
+        <strong>−5% к цене</strong> при покупке в сборке. Воспользуйтесь конфигуратором ПК — мы подберём совместимую материнскую плату, ОЗУ и кулер автоматически.
+      </div>
+
+      <!-- Quick specs -->
+      <div class="quick-specs">
+        <h3>Ключевые характеристики</h3>
+        <dl class="spec-grid">
+          <div><dt>Сокет</dt><dd>AM5</dd></div>
+          <div><dt>Ядро / Потоки</dt><dd>8 / 16</dd></div>
+          <div><dt>Базовая частота</dt><dd>4.2 ГГц</dd></div>
+          <div><dt>Boost частота</dt><dd>5.0 ГГц</dd></div>
+          <div><dt>Кэш L3</dt><dd>96 МБ (3D V-Cache)</dd></div>
+          <div><dt>TDP</dt><dd>120 Вт</dd></div>
+          <div><dt>Техпроцесс</dt><dd>5 нм TSMC</dd></div>
+          <div><dt>Архитектура</dt><dd>Zen 4</dd></div>
+        </dl>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────── TABS ─────────────── -->
+  <section class="section-tabs">
+    <nav class="tabs">
+      <button class="tab active">Описание</button>
+      <button class="tab">Характеристики <span class="count">28</span></button>
+      <button class="tab">Отзывы <span class="count">412</span></button>
+      <button class="tab">Вопросы <span class="count">23</span></button>
+      <button class="tab">Совместимость</button>
+    </nav>
+
+    <!-- Panel: specs (shown as the default for the mockup) -->
+    <div class="tab-panel active">
+      <h2>Полные характеристики</h2>
+      <table class="specs-table">
+        <tr><td class="specs-group" colspan="2">Основные</td></tr>
+        <tr><th>Производитель</th><td>AMD</td></tr>
+        <tr><th>Серия</th><td>Ryzen 7</td></tr>
+        <tr><th>Код модели</th><td>100-100000904WOF</td></tr>
+        <tr><th>Сокет</th><td>AM5</td></tr>
+        <tr><th>Архитектура</th><td>Zen 4 + 3D V-Cache</td></tr>
+        <tr><th>Техпроцесс</th><td>5 нм (TSMC N5)</td></tr>
+
+        <tr><td class="specs-group" colspan="2">Ядра и частоты</td></tr>
+        <tr><th>Ядер / потоков</th><td>8 / 16</td></tr>
+        <tr><th>Базовая частота</th><td>4.2 ГГц</td></tr>
+        <tr><th>Макс. частота (Boost)</th><td>5.0 ГГц</td></tr>
+        <tr><th>Кэш L2</th><td>8 МБ (1 МБ на ядро)</td></tr>
+        <tr><th>Кэш L3</th><td>96 МБ (3D V-Cache)</td></tr>
+        <tr><th>Multiplier unlocked</th><td>Да</td></tr>
+
+        <tr><td class="specs-group" colspan="2">Память и шины</td></tr>
+        <tr><th>Тип памяти</th><td>DDR5</td></tr>
+        <tr><th>Количество каналов</th><td>2</td></tr>
+        <tr><th>Макс. частота памяти</th><td>5200 МГц (официально) / до 6400+ при разгоне</td></tr>
+        <tr><th>Версия PCIe</th><td>5.0</td></tr>
+        <tr><th>Количество линий PCIe</th><td>24</td></tr>
+
+        <tr><td class="specs-group" colspan="2">Энергопотребление</td></tr>
+        <tr><th>Тепловыделение (TDP)</th><td>120 Вт</td></tr>
+        <tr><th>Макс. температура</th><td>95 °C</td></tr>
+        <tr><th>Рекоменд. блок питания</th><td>от 700 Вт</td></tr>
+        <tr><th>Кулер в комплекте</th><td>Нет (OEM-поставка)</td></tr>
+
+        <tr><td class="specs-group" colspan="2">Физические</td></tr>
+        <tr><th>Форм-фактор</th><td>AM5 (40 × 40 мм)</td></tr>
+        <tr><th>Вес</th><td>~ 78 г</td></tr>
+        <tr><th>Гарантия</th><td>36 месяцев</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ─────────────── REVIEWS ─────────────── -->
+  <section id="reviews" class="related">
+    <div class="related-head">
+      <h2>Отзывы покупателей</h2>
+      <a href="#">Все 412 отзывов →</a>
+    </div>
+
+    <div class="reviews-summary">
+      <div class="reviews-score">
+        <div class="big">4.9</div>
+        <div class="stars">★★★★★</div>
+        <div class="count">из 412 отзывов</div>
+      </div>
+      <div class="rating-bars">
+        <div class="rating-bar"><span>5★</span><div class="bar"><div style="width:86%"></div></div><span class="num">354</span></div>
+        <div class="rating-bar"><span>4★</span><div class="bar"><div style="width:10%"></div></div><span class="num">41</span></div>
+        <div class="rating-bar"><span>3★</span><div class="bar"><div style="width:3%"></div></div><span class="num">12</span></div>
+        <div class="rating-bar"><span>2★</span><div class="bar"><div style="width:1%"></div></div><span class="num">3</span></div>
+        <div class="rating-bar"><span>1★</span><div class="bar"><div style="width:1%"></div></div><span class="num">2</span></div>
+      </div>
+    </div>
+
+    <div class="review-list">
+
+      <div class="review">
+        <div class="review-head">
+          <div class="avatar">А</div>
+          <div>
+            <div class="review-author">Алексей К.</div>
+            <div class="review-date">12 июня 2026 · подтверждённая покупка</div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <div class="review-body">
+          Перешёл с Ryzen 5 5600X — прирост в Cyberpunk 2077 на 1440p с RTX 4070 порядка 35–40%. V-Cache реально работает: в симуляторах и стратегии (Factorio, Stellaris) FPS вырос вдвое. Температуры под Noctua NH-D15 в стрессе — 78 °C. В играх 62–68 °C. За эти деньги — лучший игровой процессор 2026 года, без вопросов.
+        </div>
+        <div class="review-tags">
+          <span class="review-tag pos">+ производительность</span>
+          <span class="review-tag pos">+ холодный</span>
+          <span class="review-tag neg">— нет кулера в комплекте</span>
+        </div>
+      </div>
+
+      <div class="review">
+        <div class="review-head">
+          <div class="avatar">М</div>
+          <div>
+            <div class="review-author">Мария В.</div>
+            <div class="review-date">5 июня 2026 · подтверждённая покупка</div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <div class="review-body">
+          Брала для сбоки мужу на день рождения. Доставка на следующий день в СПб, упаковка не помята. Поставили в плату ASUS ROG STRIX B650-A — завёлся сразу, биос обновлять не пришлось. Муж доволен, говорит CS2 теперь 540 fps на 1080p.
+        </div>
+        <div class="review-tags">
+          <span class="review-tag pos">+ быстрая доставка</span>
+          <span class="review-tag pos">+ работает из коробки</span>
+        </div>
+      </div>
+
+      <div class="review">
+        <div class="review-head">
+          <div class="avatar">Д</div>
+          <div>
+            <div class="review-author">Дмитрий С.</div>
+            <div class="review-date">28 мая 2026 · подтверждённая покупка</div>
+          </div>
+          <div class="review-stars">★★★★☆</div>
+        </div>
+        <div class="review-body">
+          Процессор отличный, снимаю звезду за упаковку — пришла коробка со смятым углом, хотя внутри всё целое. В Cinebench R23 single-core 2 034 балла, multi 18 240. Для 3D-рендеринга лучше взять Ryzen 9, но для игр — топ.
+        </div>
+        <div class="review-tags">
+          <span class="review-tag pos">+ FPS в играх</span>
+          <span class="review-tag neg">— упаковка</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────── RELATED ─────────────── -->
+  <section class="related">
+    <div class="related-head">
+      <h2>Совместимые компоненты</h2>
+      <a href="#">Открыть конфигуратор →</a>
+    </div>
+
+    <div class="related-grid">
+      <a class="mini-card" href="product.html">
+        <div class="mini-media"><span>mb</span></div>
+        <span class="mini-brand">ASUS · AM5</span>
+        <div class="mini-title">ROG STRIX B650-A Gaming WiFi</div>
+        <div class="mini-foot">
+          <span class="mini-price">28 490 ₽</span>
+          <span style="color:var(--success);font-size:11px;font-family:var(--font-mono);">совместим 100%</span>
+        </div>
+      </a>
+
+      <a class="mini-card" href="product.html">
+        <div class="mini-media"><span>ram</span></div>
+        <span class="mini-brand">Kingston · 32 ГБ</span>
+        <div class="mini-title">FURY Beast RGB DDR5-6000</div>
+        <div class="mini-foot">
+          <span class="mini-price">11 990 ₽</span>
+          <span style="color:var(--success);font-size:11px;font-family:var(--font-mono);">2 × 16 ГБ</span>
+        </div>
+      </a>
+
+      <a class="mini-card" href="product.html">
+        <div class="mini-media"><span>cooler</span></div>
+        <span class="mini-brand">be quiet! · 220 Вт</span>
+        <div class="mini-title">Dark Rock Pro 5</div>
+        <div class="mini-foot">
+          <span class="mini-price">7 490 ₽</span>
+          <span style="color:var(--success);font-size:11px;font-family:var(--font-mono);">TDP 220 Вт</span>
+        </div>
+      </a>
+
+      <a class="mini-card" href="product.html">
+        <div class="mini-media"><span>psu</span></div>
+        <span class="mini-brand">Corsair · 850 Вт</span>
+        <div class="mini-title">RM850x (2023) 80+ Gold</div>
+        <div class="mini-foot">
+          <span class="mini-price">14 990 ₽</span>
+          <span style="color:var(--success);font-size:11px;font-family:var(--font-mono);">запас 25%</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ─────────────── SIMILAR PRODUCTS ─────────────── -->
+  <section class="related">
+    <div class="related-head">
+      <h2>Похожие процессоры</h2>
+      <a href="catalog.html">Все процессоры →</a>
+    </div>
+
+    <div class="related-grid">
+      <a class="mini-card" href="product.html">
+        <div class="mini-media"><span>ryz</span></div>
+        <span class="mini-brand">AMD · AM5</span>
+        <div class="mini-title">Ryzen 9 7950X3D</div>
+        <div class="mini-foot">
+          <span class="mini-price">62 900 ₽</span>
+          <span style="font-size:11px;font-family:var(--font-mono);color:var(--meta);">16 ядер</span>
+        </div>
+      </a>
+
+      <a class="mini-card" href="product.html">
+        <div class="mini-media"><span>ryz</span></div>
+        <span class="mini-brand">AMD · AM5</span>
+        <div class="mini-title">Ryzen 5 7600</div>
+        <div class="mini-foot">
+          <span class="mini-price">19 990 ₽</span>
+          <span style="font-size:11px;font-family:var(--font-mono);color:var(--meta);">6 ядер</span>
+        </div>
+      </a>
+
+      <a class="mini-card" href="product.html">
+        <div class="mini-media"><span>intel</span></div>
+        <span class="mini-brand">Intel · LGA 1700</span>
+        <div class="mini-title">Core i7-14700K</div>
+        <div class="mini-foot">
+          <span class="mini-price">46 500 ₽</span>
+          <span style="font-size:11px;font-family:var(--font-mono);color:var(--meta);">20 ядер</span>
+        </div>
+      </a>
+
+      <a class="mini-card" href="product.html">
+        <div class="mini-media"><span>ryz</span></div>
+        <span class="mini-brand">AMD · AM4</span>
+        <div class="mini-title">Ryzen 7 5700X3D</div>
+        <div class="mini-foot">
+          <span class="mini-price">24 990 ₽</span>
+          <span style="font-size:11px;font-family:var(--font-mono);color:var(--meta);">8 ядер</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  макет карточки товара · design-from-opendesign / product.html · магазин «КОМПОНЕНТА»
+</footer>
+
+</body>
+</html>

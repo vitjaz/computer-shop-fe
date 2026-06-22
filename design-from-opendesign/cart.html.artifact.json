@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "design-from-opendesign/cart.html",
+  "entry": "design-from-opendesign/cart.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-22T16:33:00.594Z",
+  "updatedAt": "2026-06-22T16:33:00.594Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

@@ -37,3 +37,8 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# OpenDesign (служебные файлы и артефакты)
+.od-skills/
+*.artifact.json
+componenta-launcher.html

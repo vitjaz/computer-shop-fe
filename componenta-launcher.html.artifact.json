@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "КОМПОНЕНТА — макеты UI (launcher)",
+  "entry": "componenta-launcher.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "primary": true,
+  "createdAt": "2026-06-22T16:37:16.656Z",
+  "updatedAt": "2026-06-22T16:37:16.658Z",
+  "sourceSkillId": "agent-browser",
+  "designSystemId": "claude",
+  "metadata": {
+    "identifier": "componenta-launcher",
+    "artifactType": "text/html",
+    "inferred": false
+  }
+}
