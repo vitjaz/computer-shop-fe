@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 import BaseBadge from '@/components/common/BaseBadge.vue'
 import BaseAlert from '@/components/common/BaseAlert.vue'
+import BaseDropdown from '@/components/common/BaseDropdown.vue'
 import BaseModal from '@/components/common/BaseModal.vue'
 import BaseBreadcrumb from '@/components/common/BaseBreadcrumb.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
@@ -52,6 +53,17 @@ const chipGpu = ref(true)
 const modalOpen = ref(false)
 const modalNoCloseOpen = ref(false)
 const modalCustomHeaderOpen = ref(false)
+
+const dropdownValue = ref<string | number | null>('gpu')
+const dropdownOpen = ref(false)
+const dropdownDisabledValue = ref<string | number | null>(null)
+
+const dropdownOptions = [
+  { value: 'cpu', label: 'Процессоры' },
+  { value: 'gpu', label: 'Видеокарты' },
+  { value: 'ram', label: 'Память' },
+  { value: 'mb', label: 'Материнские платы', disabled: true },
+]
 
 const breadcrumbItems = [
   { label: 'Главная', to: '/' },
@@ -288,6 +300,29 @@ const categoryOptions = [
     </section>
 
     <section class="section">
+      <p class="eyebrow">BaseDropdown</p>
+      <h2 class="h2">Выпадающие списки</h2>
+      <div class="row wrap kit-dropdown">
+        <BaseDropdown
+          v-model="dropdownValue"
+          v-model:open="dropdownOpen"
+          :options="dropdownOptions"
+          aria-label="Категория товара"
+        />
+
+        <BaseDropdown
+          v-model="dropdownDisabledValue"
+          :options="dropdownOptions"
+          placeholder="С заблокированной опцией"
+        />
+      </div>
+
+      <p class="meta">
+        Выбрано: <span class="num">{{ dropdownValue ?? '—' }}</span>
+      </p>
+    </section>
+
+    <section class="section">
       <p class="eyebrow">BaseModal</p>
       <h2 class="h2">Диалоги</h2>
       <div class="row wrap kit-modal">
@@ -403,6 +438,10 @@ const categoryOptions = [
 
 .kit-alerts {
   max-width: 560px;
+}
+
+.kit-dropdown {
+  align-items: flex-start;
 }
 
 .kit-spinner {
