@@ -634,6 +634,78 @@ h4 {
   right: var(--sp-3);
 }
 
+/* ─── выпадающий список ───────────────────────────────────────────── */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  min-width: 160px;
+  padding: 11px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-size: var(--fs-sm);
+  text-align: left;
+  transition:
+    border-color var(--motion-fast) var(--ease),
+    box-shadow var(--motion-fast) var(--ease);
+}
+.dropdown-trigger:hover {
+  border-color: var(--fg-2);
+}
+.dropdown-trigger[aria-expanded='true'] {
+  border-color: var(--fg-2);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+.dropdown-trigger .dropdown-chev {
+  color: var(--meta);
+  transition: transform var(--motion-fast) var(--ease);
+}
+.dropdown-trigger[aria-expanded='true'] .dropdown-chev {
+  transform: rotate(180deg);
+}
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + var(--sp-1));
+  left: 0;
+  z-index: 70;
+  min-width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--elev-raised);
+  padding: var(--sp-1) 0;
+  list-style: none;
+  margin: 0;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-sm);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition:
+    background var(--motion-fast) var(--ease),
+    color var(--motion-fast) var(--ease);
+}
+.dropdown-item:hover,
+.dropdown-item[data-active='true'] {
+  background: var(--surface-warm);
+  color: var(--fg);
+}
+.dropdown-item[aria-disabled='true'] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 /* ─── поля форм ────────────────────────────────────────────────────── */
 .field {
   display: flex;
