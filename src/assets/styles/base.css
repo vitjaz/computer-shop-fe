@@ -1479,6 +1479,66 @@ h4 {
   height: 14px;
 }
 
+/* ─── радио-список (выбор доставки/оплаты) ────────────────────────── */
+.radio-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 13px;
+  transition: border-color var(--motion-fast) var(--ease);
+}
+.radio:hover {
+  border-color: var(--border-soft);
+}
+.radio.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.radio .dot {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  transition: all var(--motion-fast) var(--ease);
+}
+.radio.active .dot {
+  border-color: var(--accent);
+}
+.radio.active .dot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.radio .text {
+  flex: 1;
+  color: var(--fg);
+}
+.radio .price-tag {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+.radio.active .price-tag {
+  color: var(--fg);
+}
+.radio input.sr-only:focus-visible + .dot {
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
 /* ─── утилиты ─────────────────────────────────────────────────────── */
 .hide-mobile {
 }
