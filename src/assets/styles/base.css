@@ -583,6 +583,57 @@ h4 {
   color: color-mix(in oklch, var(--danger) 82%, var(--fg));
 }
 
+/* ─── модальный диалог ────────────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: color-mix(in oklch, var(--fg) 38%, transparent);
+  display: grid;
+  place-items: center;
+  padding: var(--sp-6);
+}
+.modal {
+  position: relative;
+  z-index: 81;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100dvh - var(--sp-12));
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-6);
+  border-bottom: 1px solid var(--border);
+}
+.modal-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: 500;
+}
+.modal-body {
+  padding: var(--sp-6);
+}
+.modal-footer {
+  display: flex;
+  gap: var(--sp-3);
+  justify-content: flex-end;
+  padding: var(--sp-5) var(--sp-6);
+  border-top: 1px solid var(--border);
+}
+.modal-close {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+}
+
 /* ─── поля форм ────────────────────────────────────────────────────── */
 .field {
   display: flex;
