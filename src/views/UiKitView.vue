@@ -1,0 +1,721 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+import BaseBadge from '@/components/common/BaseBadge.vue'
+import BaseAlert from '@/components/common/BaseAlert.vue'
+import BaseDropdown from '@/components/common/BaseDropdown.vue'
+import BaseModal from '@/components/common/BaseModal.vue'
+import BaseBreadcrumb from '@/components/common/BaseBreadcrumb.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
+import BaseCard from '@/components/common/BaseCard.vue'
+import BaseCheckbox from '@/components/common/BaseCheckbox.vue'
+import BaseChip from '@/components/common/BaseChip.vue'
+import BaseField from '@/components/common/BaseField.vue'
+import BaseIcon from '@/components/common/BaseIcon.vue'
+import BaseIconButton from '@/components/common/BaseIconButton.vue'
+import BaseInput from '@/components/common/BaseInput.vue'
+import BaseQty from '@/components/common/BaseQty.vue'
+import BaseRating from '@/components/common/BaseRating.vue'
+import BaseSelect from '@/components/common/BaseSelect.vue'
+import BaseTag from '@/components/common/BaseTag.vue'
+import BaseTextarea from '@/components/common/BaseTextarea.vue'
+import BaseToast from '@/components/common/BaseToast.vue'
+import BaseTooltip from '@/components/common/BaseTooltip.vue'
+import BaseTabs from '@/components/common/BaseTabs.vue'
+import BasePagination from '@/components/common/BasePagination.vue'
+import BaseSegmented from '@/components/common/BaseSegmented.vue'
+import BaseRadioGroup from '@/components/common/BaseRadioGroup.vue'
+import BaseStepper from '@/components/common/BaseStepper.vue'
+import BaseSkeleton from '@/components/common/BaseSkeleton.vue'
+import BaseEmptyState from '@/components/common/BaseEmptyState.vue'
+import BaseGallery from '@/components/common/BaseGallery.vue'
+
+import { useToastStore } from '@/stores/toast'
+
+const iconNames = [
+  'cart',
+  'search',
+  'heart',
+  'compare',
+  'star',
+  'chevron-down',
+  'close',
+  'check',
+  'arrow-left',
+  'arrow-right',
+] as const
+
+const variants = ['primary', 'secondary', 'outline', 'ghost'] as const
+
+const formName = ref('')
+const formEmail = ref('')
+const formInvalid = ref('')
+const formNotes = ref('')
+const formCategory = ref('')
+const formSearch = ref('')
+const checkBasic = ref(true)
+const checkCount = ref(false)
+const checkDisabled = ref(false)
+const qtyDefault = ref(1)
+const qtySm = ref(2)
+const qtyLg = ref(1)
+const chipCpu = ref(false)
+const chipGpu = ref(true)
+
+const modalOpen = ref(false)
+const modalNoCloseOpen = ref(false)
+const modalCustomHeaderOpen = ref(false)
+
+const dropdownValue = ref<string | number | null>('gpu')
+const dropdownOpen = ref(false)
+const dropdownDisabledValue = ref<string | number | null>(null)
+
+const dropdownOptions = [
+  { value: 'cpu', label: 'Процессоры' },
+  { value: 'gpu', label: 'Видеокарты' },
+  { value: 'ram', label: 'Память' },
+  { value: 'mb', label: 'Материнские платы', disabled: true },
+]
+
+const breadcrumbItems = [
+  { label: 'Главная', to: '/' },
+  { label: 'Каталог', to: '/catalog' },
+  { label: 'Процессоры' },
+]
+
+const toastStore = useToastStore()
+
+const categoryOptions = [
+  { value: 'cpu', label: 'Процессоры' },
+  { value: 'gpu', label: 'Видеокарты' },
+  { value: 'ram', label: 'Память' },
+  { value: 'mb', label: 'Материнские платы' },
+]
+
+const tabsModel = ref('desc')
+const tabItems = [
+  { id: 'desc', label: 'Описание', count: 0 },
+  { id: 'specs', label: 'Характеристики', count: 12 },
+  { id: 'reviews', label: 'Отзывы' },
+]
+
+const pagerPage = ref(3)
+const pagerTotal = 120
+const pagerPerPage = 12
+
+const segView = ref('grid')
+const segOptions = [
+  { value: 'grid', label: 'Сетка', icon: 'compare' },
+  { value: 'list', label: 'Список', icon: 'chevron-down' },
+]
+
+const radioDelivery = ref('pickup')
+const radioOptions = [
+  { value: 'courier', label: 'Курьер по адресу', price: '390 ₽' },
+  { value: 'pickup', label: 'Самовывоз', price: 'Бесплатно' },
+  { value: 'post', label: 'Почта России', disabled: true },
+]
+
+const stepperSteps = [
+  { label: 'Корзина' },
+  { label: 'Доставка' },
+  { label: 'Оплата' },
+  { label: 'Готово' },
+]
+
+const galleryImages = [
+  '/img/product-1.jpg',
+  '/img/product-2.jpg',
+  '/img/product-3.jpg',
+  '/img/product-4.jpg',
+]
+const galleryIndex = ref(0)
+</script>
+
+<template>
+  <div class="container">
+    <section class="section">
+      <p class="eyebrow">UI-кит</p>
+      <h1 class="h1">Базовые компоненты</h1>
+      <p class="lead">
+        Витрина base-* компонентов. Страница наполняется по мере добавления групп компонентов.
+      </p>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseIcon</p>
+      <h2 class="h2">Иконки</h2>
+      <div class="row wrap kit-icon-row">
+        <BaseIcon v-for="name in iconNames" :key="name" :name="name" />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseButton</p>
+      <h2 class="h2">Кнопки</h2>
+      <div class="stack">
+        <div class="row wrap">
+          <BaseButton v-for="variant in variants" :key="variant" :variant="variant">
+            {{ variant }}
+          </BaseButton>
+        </div>
+
+        <div class="row wrap">
+          <BaseButton variant="primary" size="sm">Small</BaseButton>
+          <BaseButton variant="primary" arrow>Со стрелкой</BaseButton>
+          <BaseButton variant="primary" disabled>Disabled</BaseButton>
+          <BaseButton variant="primary" loading>
+            <template #icon>
+              <span class="kit-spinner" aria-hidden="true" />
+            </template>
+            Loading
+          </BaseButton>
+        </div>
+
+        <BaseButton variant="primary" block>Block</BaseButton>
+
+        <div class="row wrap">
+          <BaseButton variant="primary">
+            <template #icon><BaseIcon name="cart" /></template>
+            В корзину
+          </BaseButton>
+          <BaseButton variant="outline">
+            <template #icon><BaseIcon name="compare" /></template>
+            В сравнение
+          </BaseButton>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseIconButton</p>
+      <h2 class="h2">Icon-кнопки</h2>
+      <div class="row wrap">
+        <BaseIconButton label="Корзина">
+          <template #icon><BaseIcon name="cart" /></template>
+        </BaseIconButton>
+        <BaseIconButton label="Поиск">
+          <template #icon><BaseIcon name="search" /></template>
+        </BaseIconButton>
+        <BaseIconButton label="В избранное" pressed>
+          <template #icon><BaseIcon name="heart" /></template>
+        </BaseIconButton>
+        <BaseIconButton label="К сравнению" pressed>
+          <template #icon><BaseIcon name="compare" /></template>
+        </BaseIconButton>
+        <BaseIconButton label="Закрыть">
+          <template #icon><BaseIcon name="close" /></template>
+        </BaseIconButton>
+        <BaseIconButton label="Недоступно" disabled>
+          <template #icon><BaseIcon name="check" /></template>
+        </BaseIconButton>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Поля форм</p>
+      <h2 class="h2">BaseField / BaseInput / BaseTextarea / BaseSelect</h2>
+      <div class="stack kit-form">
+        <div class="grid-2">
+          <BaseField label="Имя" html-for="kit-name" required>
+            <BaseInput id="kit-name" v-model="formName" placeholder="Как вас зовут?" />
+          </BaseField>
+
+          <BaseField label="Email" html-for="kit-email" help="Никому не передаём.">
+            <BaseInput id="kit-email" v-model="formEmail" type="email" placeholder="you@shop.ru" />
+          </BaseField>
+
+          <BaseField label="С ошибкой" html-for="kit-invalid" error="Введите корректное значение">
+            <BaseInput id="kit-invalid" v-model="formInvalid" invalid placeholder="сломано" />
+          </BaseField>
+
+          <BaseField label="Заблокировано" html-for="kit-disabled">
+            <BaseInput id="kit-disabled" model-value="" disabled placeholder="недоступно" />
+          </BaseField>
+
+          <BaseField label="С префиксом" html-for="kit-affix">
+            <BaseInput id="kit-affix" v-model="formSearch" placeholder="Поиск">
+              <template #prefix><BaseIcon name="search" /></template>
+              <template #suffix><span class="meta">↵</span></template>
+            </BaseInput>
+          </BaseField>
+
+          <BaseField label="Категория" html-for="kit-category">
+            <BaseSelect
+              id="kit-category"
+              v-model="formCategory"
+              :options="categoryOptions"
+              placeholder="Выберите…"
+            />
+          </BaseField>
+        </div>
+
+        <BaseField label="Комментарий" html-for="kit-notes" help="До 500 символов.">
+          <BaseTextarea id="kit-notes" v-model="formNotes" :rows="4" placeholder="Ваш комментарий" />
+        </BaseField>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseCheckbox</p>
+      <h2 class="h2">Чекбоксы</h2>
+      <div class="check-list kit-checks">
+        <BaseCheckbox v-model="checkBasic" label="В наличии" id="ck-basic" />
+        <BaseCheckbox v-model="checkCount" label="Со скидкой" :count="12" id="ck-count" />
+        <BaseCheckbox v-model="checkDisabled" label="Недоступно" disabled id="ck-disabled" />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseQty</p>
+      <h2 class="h2">Степпер количества</h2>
+      <div class="row wrap kit-qty">
+        <BaseQty v-model="qtyDefault" :min="1" :max="10" />
+        <BaseQty v-model="qtySm" :min="1" :max="10" size="sm" />
+        <BaseQty v-model="qtyLg" :min="1" :max="99" size="lg" />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseCard</p>
+      <h2 class="h2">Поверхности</h2>
+      <div class="grid-3 kit-surfaces">
+        <BaseCard>
+          <h3 class="h4">Обычная карточка</h3>
+          <p class="meta">.card — фоновая поверхность с рамкой.</p>
+        </BaseCard>
+
+        <BaseCard hover>
+          <h3 class="h4">С hover</h3>
+          <p class="meta">.card .card-hover — при наведении подъём.</p>
+        </BaseCard>
+
+        <BaseCard flat>
+          <h3 class="h4">Плоская</h3>
+          <p class="meta">.card .card-flat — без фона и отступов.</p>
+        </BaseCard>
+
+        <BaseCard as="article" hover>
+          <h3 class="h4">Произвольный тег</h3>
+          <p class="meta">as="article" — семантическая обёртка.</p>
+        </BaseCard>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseBadge · BaseTag</p>
+      <h2 class="h2">Пилюли и теги</h2>
+      <div class="stack">
+        <div class="row wrap">
+          <BaseBadge>Акция</BaseBadge>
+          <BaseBadge variant="success">В наличии</BaseBadge>
+          <BaseBadge variant="neutral">Б/у</BaseBadge>
+        </div>
+
+        <div class="row wrap">
+          <BaseTag>DDR5</BaseTag>
+          <BaseTag>AM5</BaseTag>
+          <BaseTag>32 ГБ</BaseTag>
+          <BaseTag>7200 МГц</BaseTag>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseChip</p>
+      <h2 class="h2">Чипы</h2>
+      <div class="stack">
+        <div class="row wrap">
+          <BaseChip :pressed="chipCpu" @toggle="chipCpu = !chipCpu">Процессоры</BaseChip>
+          <BaseChip :pressed="chipGpu" @toggle="chipGpu = !chipGpu">Видеокарты</BaseChip>
+          <BaseChip>Память</BaseChip>
+        </div>
+
+        <div class="row wrap">
+          <BaseChip variant="accent">Акцентный</BaseChip>
+          <BaseChip removable>AMD Ryzen 7</BaseChip>
+          <BaseChip removable variant="accent">−20%</BaseChip>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseRating</p>
+      <h2 class="h2">Рейтинг</h2>
+      <div class="stack kit-rating">
+        <BaseRating :value="5" :count="128" />
+        <BaseRating :value="4.5" :count="354" />
+        <BaseRating :value="3" :count="42" />
+        <BaseRating :value="2" />
+        <BaseRating :value="0" :count="0" />
+        <BaseRating :value="4" :max="10" :count="7" />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseDropdown</p>
+      <h2 class="h2">Выпадающие списки</h2>
+      <div class="row wrap kit-dropdown">
+        <BaseDropdown
+          v-model="dropdownValue"
+          v-model:open="dropdownOpen"
+          :options="dropdownOptions"
+          aria-label="Категория товара"
+        />
+
+        <BaseDropdown
+          v-model="dropdownDisabledValue"
+          :options="dropdownOptions"
+          placeholder="С заблокированной опцией"
+        />
+      </div>
+
+      <p class="meta">
+        Выбрано: <span class="num">{{ dropdownValue ?? '—' }}</span>
+      </p>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseModal</p>
+      <h2 class="h2">Диалоги</h2>
+      <div class="row wrap kit-modal">
+        <BaseButton variant="primary" @click="modalOpen = true">Открыть диалог</BaseButton>
+        <BaseButton variant="outline" @click="modalNoCloseOpen = true">Без кнопки закрытия</BaseButton>
+        <BaseButton variant="ghost" @click="modalCustomHeaderOpen = true">
+          Со своим заголовком
+        </BaseButton>
+      </div>
+
+      <BaseModal
+        v-model="modalOpen"
+        title="Оформление заказа"
+        aria-label="Диалог оформления заказа"
+      >
+        <p class="muted">
+          Подтвердите оформление заказа. Цена и наличие зафиксированы на момент открытия диалога.
+        </p>
+        <template #footer>
+          <BaseButton variant="ghost" @click="modalOpen = false">Отмена</BaseButton>
+          <BaseButton variant="primary" @click="modalOpen = false">Подтвердить</BaseButton>
+        </template>
+      </BaseModal>
+
+      <BaseModal v-model="modalNoCloseOpen" title="Без явной кнопки" hide-close>
+        <p class="muted">Закрыть можно по ESC, клику по фону или кнопке ниже.</p>
+        <template #footer>
+          <BaseButton variant="primary" @click="modalNoCloseOpen = false">Закрыть</BaseButton>
+        </template>
+      </BaseModal>
+
+      <BaseModal v-model="modalCustomHeaderOpen" aria-label="Диалог с кастомным заголовком">
+        <template #header>
+          <header class="modal-header">
+            <h2 class="modal-title">Своя шапка</h2>
+            <BaseIconButton label="Закрыть" class="modal-close" @click="modalCustomHeaderOpen = false">
+              <template #icon><BaseIcon name="close" /></template>
+            </BaseIconButton>
+          </header>
+        </template>
+        <p class="muted">Слот header полностью заменяет дефолтный заголовок.</p>
+      </BaseModal>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseAlert</p>
+      <h2 class="h2">Уведомления</h2>
+      <div class="stack kit-alerts">
+        <BaseAlert variant="info" title="Информация">
+          <template #icon><BaseIcon name="search" /></template>
+          Сравнение товаров обновлено.
+        </BaseAlert>
+
+        <BaseAlert variant="success" title="Готово">
+          <template #icon><BaseIcon name="check" /></template>
+          Купон SBORKA5 применён.
+          <template #action>
+            <BaseButton variant="ghost" size="sm">Отменить</BaseButton>
+          </template>
+        </BaseAlert>
+
+        <BaseAlert variant="warning">
+          <template #icon><BaseIcon name="heart" /></template>
+          Осталось 2 товара на складе.
+        </BaseAlert>
+
+        <BaseAlert variant="danger" title="Ошибка">
+          <template #icon><BaseIcon name="close" /></template>
+          Не удалось оформить заказ.
+          <template #action>
+            <BaseButton variant="ghost" size="sm">Повторить</BaseButton>
+          </template>
+        </BaseAlert>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseToast</p>
+      <h2 class="h2">Тосты</h2>
+      <p class="meta kit-toast-help">
+        Глобальный контейнер уже примонтирован в App.vue — кнопки ниже вызывают
+        <code>useToastStore().push(...)</code>.
+      </p>
+      <div class="stack">
+        <div class="row wrap kit-toast">
+          <BaseButton variant="secondary" @click="toastStore.push('Информация обновлена')">
+            Info
+          </BaseButton>
+          <BaseButton
+            variant="secondary"
+            @click="toastStore.push('Заказ оформлен', 'success')"
+          >
+            Success
+          </BaseButton>
+          <BaseButton
+            variant="secondary"
+            @click="toastStore.push('Не удалось сохранить', 'error', 8000)"
+          >
+            Error (8с)
+          </BaseButton>
+          <BaseButton variant="ghost" @click="toastStore.clear()">Очистить все</BaseButton>
+        </div>
+
+        <div class="row wrap kit-toast-static">
+          <BaseToast message="Статичный info" />
+          <BaseToast message="Статичный success" variant="success" />
+          <BaseToast message="Статичный error" variant="error" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseTooltip</p>
+      <h2 class="h2">Тултипы</h2>
+      <p class="meta kit-tooltip-help">
+        Наведите или сфокусируйте (Tab) триггер. Позиционирование — CSS, относительно обёртки
+        <code>.tooltip-trigger</code>.
+      </p>
+      <div class="kit-tooltip-grid">
+        <BaseTooltip content="Наверх" placement="top">
+          <BaseButton variant="secondary">Top</BaseButton>
+        </BaseTooltip>
+        <BaseTooltip content="Вправо" placement="right">
+          <BaseButton variant="secondary">Right</BaseButton>
+        </BaseTooltip>
+        <BaseTooltip content="Вниз" placement="bottom">
+          <BaseButton variant="secondary">Bottom</BaseButton>
+        </BaseTooltip>
+        <BaseTooltip content="Влево" placement="left">
+          <BaseButton variant="secondary">Left</BaseButton>
+        </BaseTooltip>
+        <BaseTooltip content="Добавить в избранное">
+          <BaseIconButton label="В избранное">
+            <template #icon><BaseIcon name="heart" /></template>
+          </BaseIconButton>
+        </BaseTooltip>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseBreadcrumb</p>
+      <h2 class="h2">Хлебные крошки</h2>
+      <div class="stack kit-crumb">
+        <BaseBreadcrumb :items="breadcrumbItems" />
+        <BaseBreadcrumb
+          :items="[
+            { label: 'Каталог', to: '/' },
+            { label: 'Видеокарты', to: '/categories/gpu' },
+            { label: 'ASUS ROG Strix RTX 4080' },
+          ]"
+        />
+        <BaseBreadcrumb :items="[{ label: 'Только текущая страница' }]" />
+        <BaseBreadcrumb
+          :items="[
+            { label: 'A', to: '/' },
+            { label: 'B', to: '/' },
+            { label: 'C' },
+          ]"
+        >
+          <template #separator>/</template>
+        </BaseBreadcrumb>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseTabs</p>
+      <h2 class="h2">Табы</h2>
+      <BaseTabs v-model="tabsModel" :items="tabItems">
+        <template #panel-desc>
+          <p class="muted">Описание товара. Переключите таб, чтобы увидеть другой контент.</p>
+        </template>
+        <template #panel-specs>
+          <p class="muted">Таблица характеристик (12 позиций).</p>
+        </template>
+        <template #panel-reviews>
+          <p class="muted">Отзывы покупателей.</p>
+        </template>
+      </BaseTabs>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BasePagination</p>
+      <h2 class="h2">Пагинация</h2>
+      <BasePagination
+        :page="pagerPage"
+        :total="pagerTotal"
+        :per-page="pagerPerPage"
+        @change="pagerPage = $event"
+      />
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseSegmented</p>
+      <h2 class="h2">Сегментированный контроль</h2>
+      <div class="stack kit-segmented">
+        <BaseSegmented v-model="segView" :options="segOptions" aria-label="Вид каталога" />
+        <BaseSegmented
+          v-model="segView"
+          :options="segOptions"
+          variant="icon"
+          aria-label="Вид каталога (иконки)"
+        />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseRadioGroup</p>
+      <h2 class="h2">Радио-список</h2>
+      <BaseRadioGroup
+        v-model="radioDelivery"
+        :options="radioOptions"
+        name="kit-delivery"
+        class="kit-radio"
+      />
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseStepper</p>
+      <h2 class="h2">Шаги оформления</h2>
+      <BaseStepper :steps="stepperSteps" :current="1" />
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseSkeleton</p>
+      <h2 class="h2">Скелетоны</h2>
+      <div class="grid-3 kit-skeleton-grid">
+        <BaseSkeleton shape="text" :lines="3" width="100%" />
+        <BaseSkeleton shape="rect" width="100%" height="120px" />
+        <BaseSkeleton shape="circle" width="64px" />
+        <BaseSkeleton shape="line" width="60%" />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseEmptyState</p>
+      <h2 class="h2">Пустое состояние</h2>
+      <div class="kit-empty">
+        <BaseEmptyState
+          title="Ничего не найдено"
+          description="Попробуйте изменить параметры поиска или сбросить фильтры."
+          icon="search"
+        >
+          <template #action>
+            <BaseButton variant="outline">Сбросить фильтры</BaseButton>
+          </template>
+        </BaseEmptyState>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseGallery</p>
+      <h2 class="h2">Галерея товара</h2>
+      <div class="kit-gallery">
+        <BaseGallery v-model:active-index="galleryIndex" :images="galleryImages" />
+      </div>
+    </section>
+  </div>
+</template>
+
+<style scoped>
+.kit-icon-row {
+  font-size: var(--fs-h3);
+  color: var(--fg-2);
+}
+
+.kit-form {
+  max-width: 720px;
+}
+
+.kit-alerts {
+  max-width: 560px;
+}
+
+.kit-toast {
+  align-items: flex-start;
+}
+
+.kit-toast-static {
+  align-items: flex-start;
+}
+
+.kit-toast-help code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--accent);
+}
+
+.kit-tooltip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-8);
+  padding: var(--sp-8) var(--sp-4);
+}
+
+.kit-tooltip-help code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--accent);
+}
+
+.kit-dropdown {
+  align-items: flex-start;
+}
+
+.kit-segmented {
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+
+.kit-radio {
+  max-width: 420px;
+}
+
+.kit-skeleton-grid {
+  align-items: flex-start;
+}
+
+.kit-empty {
+  max-width: 480px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.kit-gallery {
+  max-width: 440px;
+}
+
+.kit-spinner {
+  width: var(--fs-sm);
+  height: var(--fs-sm);
+  border: 2px solid var(--accent-soft);
+  border-top-color: var(--accent);
+  border-radius: var(--radius-pill);
+  animation: kit-spin 0.6s linear infinite;
+}
+
+@keyframes kit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
