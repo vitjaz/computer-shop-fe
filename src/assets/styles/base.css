@@ -1346,6 +1346,53 @@ h4 {
   height: 52px;
 }
 
+/* ─── табы ────────────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: var(--sp-1);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--sp-8);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+.tab {
+  padding: 14px 18px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+  transition:
+    color var(--motion-fast) var(--ease),
+    border-color var(--motion-fast) var(--ease);
+}
+.tab .count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--meta);
+  margin-left: 6px;
+}
+.tab:hover {
+  color: var(--fg);
+}
+.tab.active {
+  color: var(--fg);
+  border-bottom-color: var(--accent);
+  font-weight: 500;
+}
+.tab.active .count {
+  color: var(--accent);
+}
+.tab-panel {
+  display: none;
+}
+.tab-panel.active {
+  display: block;
+}
+
 /* ─── утилиты ─────────────────────────────────────────────────────── */
 .hide-mobile {
 }
