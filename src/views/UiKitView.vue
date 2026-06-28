@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 import BaseBadge from '@/components/common/BaseBadge.vue'
+import BaseBreadcrumb from '@/components/common/BaseBreadcrumb.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import BaseCard from '@/components/common/BaseCard.vue'
 import BaseCheckbox from '@/components/common/BaseCheckbox.vue'
@@ -11,6 +12,7 @@ import BaseIcon from '@/components/common/BaseIcon.vue'
 import BaseIconButton from '@/components/common/BaseIconButton.vue'
 import BaseInput from '@/components/common/BaseInput.vue'
 import BaseQty from '@/components/common/BaseQty.vue'
+import BaseRating from '@/components/common/BaseRating.vue'
 import BaseSelect from '@/components/common/BaseSelect.vue'
 import BaseTag from '@/components/common/BaseTag.vue'
 import BaseTextarea from '@/components/common/BaseTextarea.vue'
@@ -44,6 +46,12 @@ const qtySm = ref(2)
 const qtyLg = ref(1)
 const chipCpu = ref(false)
 const chipGpu = ref(true)
+
+const breadcrumbItems = [
+  { label: 'Главная', to: '/' },
+  { label: 'Каталог', to: '/catalog' },
+  { label: 'Процессоры' },
+]
 
 const categoryOptions = [
   { value: 'cpu', label: 'Процессоры' },
@@ -257,6 +265,44 @@ const categoryOptions = [
           <BaseChip removable>AMD Ryzen 7</BaseChip>
           <BaseChip removable variant="accent">−20%</BaseChip>
         </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseRating</p>
+      <h2 class="h2">Рейтинг</h2>
+      <div class="stack kit-rating">
+        <BaseRating :value="5" :count="128" />
+        <BaseRating :value="4.5" :count="354" />
+        <BaseRating :value="3" :count="42" />
+        <BaseRating :value="2" />
+        <BaseRating :value="0" :count="0" />
+        <BaseRating :value="4" :max="10" :count="7" />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseBreadcrumb</p>
+      <h2 class="h2">Хлебные крошки</h2>
+      <div class="stack kit-crumb">
+        <BaseBreadcrumb :items="breadcrumbItems" />
+        <BaseBreadcrumb
+          :items="[
+            { label: 'Каталог', to: '/' },
+            { label: 'Видеокарты', to: '/categories/gpu' },
+            { label: 'ASUS ROG Strix RTX 4080' },
+          ]"
+        />
+        <BaseBreadcrumb :items="[{ label: 'Только текущая страница' }]" />
+        <BaseBreadcrumb
+          :items="[
+            { label: 'A', to: '/' },
+            { label: 'B', to: '/' },
+            { label: 'C' },
+          ]"
+        >
+          <template #separator>/</template>
+        </BaseBreadcrumb>
       </div>
     </section>
   </div>
