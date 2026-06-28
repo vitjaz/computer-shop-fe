@@ -1445,6 +1445,40 @@ h4 {
   padding: 0 var(--sp-1);
 }
 
+/* ─── сегментированный контроль ───────────────────────────────────── */
+.seg {
+  display: inline-flex;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+.seg button {
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: var(--meta);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  transition:
+    background var(--motion-fast) var(--ease),
+    color var(--motion-fast) var(--ease),
+    box-shadow var(--motion-fast) var(--ease);
+}
+.seg button:hover {
+  color: var(--fg-2);
+}
+.seg button.active {
+  background: var(--surface);
+  color: var(--fg);
+  box-shadow: var(--elev-ring);
+}
+.seg button svg {
+  width: 14px;
+  height: 14px;
+}
+
 /* ─── утилиты ─────────────────────────────────────────────────────── */
 .hide-mobile {
 }
