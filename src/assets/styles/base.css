@@ -1539,6 +1539,67 @@ h4 {
   box-shadow: 0 0 0 3px var(--ring);
 }
 
+/* ─── шаги оформления (checkout) ──────────────────────────────────── */
+.steps {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.steps-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--meta);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--meta);
+}
+.step .num {
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+.step .num svg {
+  width: 12px;
+  height: 12px;
+}
+.step.active {
+  color: var(--fg);
+  font-weight: 500;
+}
+.step.active .num {
+  background: var(--fg);
+  color: var(--surface);
+  border-color: var(--fg);
+}
+.step.done {
+  color: var(--accent);
+}
+.step.done .num {
+  background: var(--accent);
+  color: var(--accent-on);
+  border-color: var(--accent);
+}
+.steps-sep {
+  flex: 0 0 32px;
+  height: 1px;
+  background: var(--border-soft);
+}
+
 /* ─── утилиты ─────────────────────────────────────────────────────── */
 .hide-mobile {
 }
