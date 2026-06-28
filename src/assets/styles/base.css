@@ -1030,6 +1030,25 @@ h4 {
 .qty input:focus {
   outline: none;
 }
+.qty.qty-sm {
+  height: 36px;
+}
+.qty.qty-sm button {
+  width: 36px;
+  height: 36px;
+}
+.qty.qty-sm input {
+  width: 42px;
+  height: 36px;
+}
+.qty.qty-lg button {
+  width: 44px;
+  height: 52px;
+}
+.qty.qty-lg input {
+  width: 48px;
+  height: 52px;
+}
 
 /* ─── утилиты ─────────────────────────────────────────────────────── */
 .hide-mobile {

@@ -7,6 +7,7 @@ import BaseField from '@/components/common/BaseField.vue'
 import BaseIcon from '@/components/common/BaseIcon.vue'
 import BaseIconButton from '@/components/common/BaseIconButton.vue'
 import BaseInput from '@/components/common/BaseInput.vue'
+import BaseQty from '@/components/common/BaseQty.vue'
 import BaseSelect from '@/components/common/BaseSelect.vue'
 import BaseTextarea from '@/components/common/BaseTextarea.vue'
 
@@ -34,6 +35,9 @@ const formSearch = ref('')
 const checkBasic = ref(true)
 const checkCount = ref(false)
 const checkDisabled = ref(false)
+const qtyDefault = ref(1)
+const qtySm = ref(2)
+const qtyLg = ref(1)
 
 const categoryOptions = [
   { value: 'cpu', label: 'Процессоры' },
@@ -174,6 +178,16 @@ const categoryOptions = [
         <BaseCheckbox v-model="checkBasic" label="В наличии" id="ck-basic" />
         <BaseCheckbox v-model="checkCount" label="Со скидкой" :count="12" id="ck-count" />
         <BaseCheckbox v-model="checkDisabled" label="Недоступно" disabled id="ck-disabled" />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseQty</p>
+      <h2 class="h2">Степпер количества</h2>
+      <div class="row wrap kit-qty">
+        <BaseQty v-model="qtyDefault" :min="1" :max="10" />
+        <BaseQty v-model="qtySm" :min="1" :max="10" size="sm" />
+        <BaseQty v-model="qtyLg" :min="1" :max="99" size="lg" />
       </div>
     </section>
   </div>
