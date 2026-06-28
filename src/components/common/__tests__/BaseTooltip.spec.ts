@@ -58,13 +58,15 @@ describe('BaseTooltip', () => {
     }
   })
 
-  it('links the wrapper to the tooltip via aria-describedby', () => {
+  it('forwards aria-describedby to the slotted focusable trigger (not the wrapper)', () => {
     const wrapper = mountTooltip({ content: 'c' })
 
-    const trigger = wrapper.find('.tooltip-trigger')
+    const wrapperEl = wrapper.find('.tooltip-trigger')
+    const slotted = wrapper.find('[data-test="trig"]')
     const tipId = wrapper.find('.tooltip').attributes('id')
 
-    expect(trigger.attributes('aria-describedby')).toBe(tipId)
+    expect(slotted.attributes('aria-describedby')).toBe(tipId)
+    expect(wrapperEl.attributes('aria-describedby')).toBeUndefined()
   })
 
   it('shows on mouseenter and hides on mouseleave', async () => {

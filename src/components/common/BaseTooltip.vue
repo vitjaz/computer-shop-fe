@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useId } from 'vue'
+import { onMounted, onUnmounted, ref, useId } from 'vue'
 
 interface Props {
   content: string
@@ -12,6 +12,15 @@ withDefaults(defineProps<Props>(), {
 
 const visible = ref(false)
 const tooltipId = useId()
+const wrapperEl = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  wrapperEl.value?.firstElementChild?.setAttribute('aria-describedby', tooltipId)
+})
+
+onUnmounted(() => {
+  wrapperEl.value?.firstElementChild?.removeAttribute('aria-describedby')
+})
 
 function show(): void {
   visible.value = true
@@ -28,8 +37,8 @@ function onKeydown(event: KeyboardEvent): void {
 
 <template>
   <span
+    ref="wrapperEl"
     class="tooltip-trigger"
-    :aria-describedby="tooltipId"
     @mouseenter="show"
     @mouseleave="hide"
     @focusin="show"
