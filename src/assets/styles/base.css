@@ -535,6 +535,54 @@ h4 {
   font-weight: 500;
 }
 
+/* ─── уведомления (alert) ─────────────────────────────────────────── */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--fg-2);
+  font-size: var(--fs-sm);
+}
+.alert .alert-icon {
+  display: inline-flex;
+  color: inherit;
+}
+.alert .alert-body {
+  flex: 1;
+  min-width: 0;
+}
+.alert .alert-title {
+  font-weight: 500;
+  color: var(--fg);
+}
+.alert .alert-action {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+.alert-info {
+  background: color-mix(in oklch, var(--fg) 6%, transparent);
+  border-color: color-mix(in oklch, var(--fg) 16%, transparent);
+}
+.alert-success {
+  background: color-mix(in oklch, var(--success) 10%, transparent);
+  border-color: color-mix(in oklch, var(--success) 26%, transparent);
+  color: color-mix(in oklch, var(--success) 80%, var(--fg));
+}
+.alert-warning {
+  background: color-mix(in oklch, var(--accent) 10%, transparent);
+  border-color: color-mix(in oklch, var(--accent) 26%, transparent);
+  color: color-mix(in oklch, var(--accent) 82%, var(--fg));
+}
+.alert-danger {
+  background: color-mix(in oklch, var(--danger) 10%, transparent);
+  border-color: color-mix(in oklch, var(--danger) 26%, transparent);
+  color: color-mix(in oklch, var(--danger) 82%, var(--fg));
+}
+
 /* ─── поля форм ────────────────────────────────────────────────────── */
 .field {
   display: flex;
