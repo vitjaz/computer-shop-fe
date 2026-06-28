@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 import BaseBadge from '@/components/common/BaseBadge.vue'
 import BaseAlert from '@/components/common/BaseAlert.vue'
+import BaseModal from '@/components/common/BaseModal.vue'
 import BaseBreadcrumb from '@/components/common/BaseBreadcrumb.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import BaseCard from '@/components/common/BaseCard.vue'
@@ -47,6 +48,10 @@ const qtySm = ref(2)
 const qtyLg = ref(1)
 const chipCpu = ref(false)
 const chipGpu = ref(true)
+
+const modalOpen = ref(false)
+const modalNoCloseOpen = ref(false)
+const modalCustomHeaderOpen = ref(false)
 
 const breadcrumbItems = [
   { label: 'Главная', to: '/' },
@@ -280,6 +285,51 @@ const categoryOptions = [
         <BaseRating :value="0" :count="0" />
         <BaseRating :value="4" :max="10" :count="7" />
       </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseModal</p>
+      <h2 class="h2">Диалоги</h2>
+      <div class="row wrap kit-modal">
+        <BaseButton variant="primary" @click="modalOpen = true">Открыть диалог</BaseButton>
+        <BaseButton variant="outline" @click="modalNoCloseOpen = true">Без кнопки закрытия</BaseButton>
+        <BaseButton variant="ghost" @click="modalCustomHeaderOpen = true">
+          Со своим заголовком
+        </BaseButton>
+      </div>
+
+      <BaseModal
+        v-model="modalOpen"
+        title="Оформление заказа"
+        aria-label="Диалог оформления заказа"
+      >
+        <p class="muted">
+          Подтвердите оформление заказа. Цена и наличие зафиксированы на момент открытия диалога.
+        </p>
+        <template #footer>
+          <BaseButton variant="ghost" @click="modalOpen = false">Отмена</BaseButton>
+          <BaseButton variant="primary" @click="modalOpen = false">Подтвердить</BaseButton>
+        </template>
+      </BaseModal>
+
+      <BaseModal v-model="modalNoCloseOpen" title="Без явной кнопки" hide-close>
+        <p class="muted">Закрыть можно по ESC, клику по фону или кнопке ниже.</p>
+        <template #footer>
+          <BaseButton variant="primary" @click="modalNoCloseOpen = false">Закрыть</BaseButton>
+        </template>
+      </BaseModal>
+
+      <BaseModal v-model="modalCustomHeaderOpen" aria-label="Диалог с кастомным заголовком">
+        <template #header>
+          <header class="modal-header">
+            <h2 class="modal-title">Своя шапка</h2>
+            <BaseIconButton label="Закрыть" class="modal-close" @click="modalCustomHeaderOpen = false">
+              <template #icon><BaseIcon name="close" /></template>
+            </BaseIconButton>
+          </header>
+        </template>
+        <p class="muted">Слот header полностью заменяет дефолтный заголовок.</p>
+      </BaseModal>
     </section>
 
     <section class="section">
