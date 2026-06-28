@@ -148,6 +148,23 @@ describe('BaseDropdown', () => {
     expect(wrapper.find('[data-active="true"]').text()).toBe('Процессоры')
   })
 
+  it('exposes aria-activedescendant on the trigger (not the listbox) pointing at the active option', async () => {
+    wrapper = mount(BaseDropdown, { props: { options, open: true } })
+    await wrapper.vm.$nextTick()
+
+    const trigger = wrapper.find('.dropdown-trigger')
+    const menu = wrapper.find('.dropdown-menu')
+    const firstOption = wrapper.findAll('[role="option"]')[0]!
+
+    expect(menu.attributes('aria-activedescendant')).toBeUndefined()
+    expect(trigger.attributes('aria-activedescendant')).toBe(firstOption.attributes('id'))
+
+    await menu.trigger('keydown', { key: 'ArrowDown' })
+
+    const secondOption = wrapper.findAll('[role="option"]')[1]!
+    expect(trigger.attributes('aria-activedescendant')).toBe(secondOption.attributes('id'))
+  })
+
   it('wraps the active item from first to last on ArrowUp', async () => {
     wrapper = mount(BaseDropdown, { props: { options, open: true } })
 

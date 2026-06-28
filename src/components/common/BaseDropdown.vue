@@ -155,6 +155,7 @@ onUnmounted(() => {
         :aria-haspopup="'listbox'"
         :aria-expanded="open"
         :aria-controls="menuId"
+        :aria-activedescendant="activeId"
         :aria-label="ariaLabel"
         @click="toggle"
       >
@@ -169,7 +170,6 @@ onUnmounted(() => {
       class="dropdown-menu"
       role="listbox"
       tabindex="-1"
-      :aria-activedescendant="activeId"
     >
       <li
         v-for="(opt, i) in options"
