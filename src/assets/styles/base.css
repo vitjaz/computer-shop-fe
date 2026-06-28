@@ -677,6 +677,29 @@ h4 {
   color: var(--surface);
   border-color: var(--fg);
 }
+.chip button {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--border-soft);
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--motion-fast) var(--ease),
+    color var(--motion-fast) var(--ease);
+}
+.chip button:hover {
+  background: var(--fg-soft);
+  color: var(--fg);
+}
+.chip.accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
 
 /* ─── рейтинг ──────────────────────────────────────────────────────── */
 .rating {
