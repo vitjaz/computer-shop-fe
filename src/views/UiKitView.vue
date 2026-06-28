@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 import BaseButton from '@/components/common/BaseButton.vue'
+import BaseCheckbox from '@/components/common/BaseCheckbox.vue'
 import BaseField from '@/components/common/BaseField.vue'
 import BaseIcon from '@/components/common/BaseIcon.vue'
 import BaseIconButton from '@/components/common/BaseIconButton.vue'
@@ -30,6 +31,9 @@ const formInvalid = ref('')
 const formNotes = ref('')
 const formCategory = ref('')
 const formSearch = ref('')
+const checkBasic = ref(true)
+const checkCount = ref(false)
+const checkDisabled = ref(false)
 
 const categoryOptions = [
   { value: 'cpu', label: 'Процессоры' },
@@ -160,6 +164,16 @@ const categoryOptions = [
         <BaseField label="Комментарий" html-for="kit-notes" help="До 500 символов.">
           <BaseTextarea id="kit-notes" v-model="formNotes" :rows="4" placeholder="Ваш комментарий" />
         </BaseField>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseCheckbox</p>
+      <h2 class="h2">Чекбоксы</h2>
+      <div class="check-list kit-checks">
+        <BaseCheckbox v-model="checkBasic" label="В наличии" id="ck-basic" />
+        <BaseCheckbox v-model="checkCount" label="Со скидкой" :count="12" id="ck-count" />
+        <BaseCheckbox v-model="checkDisabled" label="Недоступно" disabled id="ck-disabled" />
       </div>
     </section>
   </div>
