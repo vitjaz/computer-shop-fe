@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import BaseButton from '@/components/common/BaseButton.vue'
+import BaseField from '@/components/common/BaseField.vue'
 import BaseIcon from '@/components/common/BaseIcon.vue'
 import BaseIconButton from '@/components/common/BaseIconButton.vue'
+import BaseInput from '@/components/common/BaseInput.vue'
+import BaseSelect from '@/components/common/BaseSelect.vue'
+import BaseTextarea from '@/components/common/BaseTextarea.vue'
 
 const iconNames = [
   'cart',
@@ -17,6 +23,20 @@ const iconNames = [
 ] as const
 
 const variants = ['primary', 'secondary', 'outline', 'ghost'] as const
+
+const formName = ref('')
+const formEmail = ref('')
+const formInvalid = ref('')
+const formNotes = ref('')
+const formCategory = ref('')
+const formSearch = ref('')
+
+const categoryOptions = [
+  { value: 'cpu', label: 'Процессоры' },
+  { value: 'gpu', label: 'Видеокарты' },
+  { value: 'ram', label: 'Память' },
+  { value: 'mb', label: 'Материнские платы' },
+]
 </script>
 
 <template>
@@ -98,6 +118,50 @@ const variants = ['primary', 'secondary', 'outline', 'ghost'] as const
         </BaseIconButton>
       </div>
     </section>
+
+    <section class="section">
+      <p class="eyebrow">Поля форм</p>
+      <h2 class="h2">BaseField / BaseInput / BaseTextarea / BaseSelect</h2>
+      <div class="stack kit-form">
+        <div class="grid-2">
+          <BaseField label="Имя" html-for="kit-name" required>
+            <BaseInput id="kit-name" v-model="formName" placeholder="Как вас зовут?" />
+          </BaseField>
+
+          <BaseField label="Email" html-for="kit-email" help="Никому не передаём.">
+            <BaseInput id="kit-email" v-model="formEmail" type="email" placeholder="you@shop.ru" />
+          </BaseField>
+
+          <BaseField label="С ошибкой" html-for="kit-invalid" error="Введите корректное значение">
+            <BaseInput id="kit-invalid" v-model="formInvalid" invalid placeholder="сломано" />
+          </BaseField>
+
+          <BaseField label="Заблокировано" html-for="kit-disabled">
+            <BaseInput id="kit-disabled" model-value="" disabled placeholder="недоступно" />
+          </BaseField>
+
+          <BaseField label="С префиксом" html-for="kit-affix">
+            <BaseInput id="kit-affix" v-model="formSearch" placeholder="Поиск">
+              <template #prefix><BaseIcon name="search" /></template>
+              <template #suffix><span class="meta">↵</span></template>
+            </BaseInput>
+          </BaseField>
+
+          <BaseField label="Категория" html-for="kit-category">
+            <BaseSelect
+              id="kit-category"
+              v-model="formCategory"
+              :options="categoryOptions"
+              placeholder="Выберите…"
+            />
+          </BaseField>
+        </div>
+
+        <BaseField label="Комментарий" html-for="kit-notes" help="До 500 символов.">
+          <BaseTextarea id="kit-notes" v-model="formNotes" :rows="4" placeholder="Ваш комментарий" />
+        </BaseField>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -105,6 +169,10 @@ const variants = ['primary', 'secondary', 'outline', 'ghost'] as const
 .kit-icon-row {
   font-size: var(--fs-h3);
   color: var(--fg-2);
+}
+
+.kit-form {
+  max-width: 720px;
 }
 
 .kit-spinner {
