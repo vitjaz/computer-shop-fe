@@ -1,20 +1,27 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BaseToast from '@/components/common/BaseToast.vue'
+import { useToastStore } from '@/stores/toast'
+
+const store = useToastStore()
+
+function onDismiss(id?: number): void {
+  if (id !== undefined) store.dismiss(id)
+}
+</script>
 
 <template>
   <Teleport to="body">
-    <div class="toast-container" aria-live="polite" />
+    <div class="toast-container" aria-live="polite">
+      <BaseToast
+        v-for="t in store.items"
+        :key="t.id"
+        :id="t.id"
+        :message="t.message"
+        :variant="t.variant"
+        @dismiss="onDismiss"
+      />
+    </div>
   </Teleport>
 </template>
 
-<style scoped>
-.toast-container {
-  position: fixed;
-  inset-block-end: var(--sp-6);
-  inset-inline-end: var(--sp-6);
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-  z-index: 60;
-  pointer-events: none;
-}
-</style>
+<style scoped></style>

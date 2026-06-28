@@ -19,6 +19,9 @@ import BaseRating from '@/components/common/BaseRating.vue'
 import BaseSelect from '@/components/common/BaseSelect.vue'
 import BaseTag from '@/components/common/BaseTag.vue'
 import BaseTextarea from '@/components/common/BaseTextarea.vue'
+import BaseToast from '@/components/common/BaseToast.vue'
+
+import { useToastStore } from '@/stores/toast'
 
 const iconNames = [
   'cart',
@@ -70,6 +73,8 @@ const breadcrumbItems = [
   { label: 'Каталог', to: '/catalog' },
   { label: 'Процессоры' },
 ]
+
+const toastStore = useToastStore()
 
 const categoryOptions = [
   { value: 'cpu', label: 'Процессоры' },
@@ -400,6 +405,41 @@ const categoryOptions = [
     </section>
 
     <section class="section">
+      <p class="eyebrow">BaseToast</p>
+      <h2 class="h2">Тосты</h2>
+      <p class="meta kit-toast-help">
+        Глобальный контейнер уже примонтирован в App.vue — кнопки ниже вызывают
+        <code>useToastStore().push(...)</code>.
+      </p>
+      <div class="stack">
+        <div class="row wrap kit-toast">
+          <BaseButton variant="secondary" @click="toastStore.push('Информация обновлена')">
+            Info
+          </BaseButton>
+          <BaseButton
+            variant="secondary"
+            @click="toastStore.push('Заказ оформлен', 'success')"
+          >
+            Success
+          </BaseButton>
+          <BaseButton
+            variant="secondary"
+            @click="toastStore.push('Не удалось сохранить', 'error', 8000)"
+          >
+            Error (8с)
+          </BaseButton>
+          <BaseButton variant="ghost" @click="toastStore.clear()">Очистить все</BaseButton>
+        </div>
+
+        <div class="row wrap kit-toast-static">
+          <BaseToast message="Статичный info" />
+          <BaseToast message="Статичный success" variant="success" />
+          <BaseToast message="Статичный error" variant="error" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <p class="eyebrow">BaseBreadcrumb</p>
       <h2 class="h2">Хлебные крошки</h2>
       <div class="stack kit-crumb">
@@ -438,6 +478,20 @@ const categoryOptions = [
 
 .kit-alerts {
   max-width: 560px;
+}
+
+.kit-toast {
+  align-items: flex-start;
+}
+
+.kit-toast-static {
+  align-items: flex-start;
+}
+
+.kit-toast-help code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--accent);
 }
 
 .kit-dropdown {
