@@ -21,6 +21,14 @@ import BaseTag from '@/components/common/BaseTag.vue'
 import BaseTextarea from '@/components/common/BaseTextarea.vue'
 import BaseToast from '@/components/common/BaseToast.vue'
 import BaseTooltip from '@/components/common/BaseTooltip.vue'
+import BaseTabs from '@/components/common/BaseTabs.vue'
+import BasePagination from '@/components/common/BasePagination.vue'
+import BaseSegmented from '@/components/common/BaseSegmented.vue'
+import BaseRadioGroup from '@/components/common/BaseRadioGroup.vue'
+import BaseStepper from '@/components/common/BaseStepper.vue'
+import BaseSkeleton from '@/components/common/BaseSkeleton.vue'
+import BaseEmptyState from '@/components/common/BaseEmptyState.vue'
+import BaseGallery from '@/components/common/BaseGallery.vue'
 
 import { useToastStore } from '@/stores/toast'
 
@@ -83,6 +91,45 @@ const categoryOptions = [
   { value: 'ram', label: 'Память' },
   { value: 'mb', label: 'Материнские платы' },
 ]
+
+const tabsModel = ref('desc')
+const tabItems = [
+  { id: 'desc', label: 'Описание', count: 0 },
+  { id: 'specs', label: 'Характеристики', count: 12 },
+  { id: 'reviews', label: 'Отзывы' },
+]
+
+const pagerPage = ref(3)
+const pagerTotal = 120
+const pagerPerPage = 12
+
+const segView = ref('grid')
+const segOptions = [
+  { value: 'grid', label: 'Сетка', icon: 'compare' },
+  { value: 'list', label: 'Список', icon: 'chevron-down' },
+]
+
+const radioDelivery = ref('pickup')
+const radioOptions = [
+  { value: 'courier', label: 'Курьер по адресу', price: '390 ₽' },
+  { value: 'pickup', label: 'Самовывоз', price: 'Бесплатно' },
+  { value: 'post', label: 'Почта России', disabled: true },
+]
+
+const stepperSteps = [
+  { label: 'Корзина' },
+  { label: 'Доставка' },
+  { label: 'Оплата' },
+  { label: 'Готово' },
+]
+
+const galleryImages = [
+  '/img/product-1.jpg',
+  '/img/product-2.jpg',
+  '/img/product-3.jpg',
+  '/img/product-4.jpg',
+]
+const galleryIndex = ref(0)
 </script>
 
 <template>
@@ -492,6 +539,99 @@ const categoryOptions = [
         </BaseBreadcrumb>
       </div>
     </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseTabs</p>
+      <h2 class="h2">Табы</h2>
+      <BaseTabs v-model="tabsModel" :items="tabItems">
+        <template #panel-desc>
+          <p class="muted">Описание товара. Переключите таб, чтобы увидеть другой контент.</p>
+        </template>
+        <template #panel-specs>
+          <p class="muted">Таблица характеристик (12 позиций).</p>
+        </template>
+        <template #panel-reviews>
+          <p class="muted">Отзывы покупателей.</p>
+        </template>
+      </BaseTabs>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BasePagination</p>
+      <h2 class="h2">Пагинация</h2>
+      <BasePagination
+        :page="pagerPage"
+        :total="pagerTotal"
+        :per-page="pagerPerPage"
+        @change="pagerPage = $event"
+      />
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseSegmented</p>
+      <h2 class="h2">Сегментированный контроль</h2>
+      <div class="stack kit-segmented">
+        <BaseSegmented v-model="segView" :options="segOptions" aria-label="Вид каталога" />
+        <BaseSegmented
+          v-model="segView"
+          :options="segOptions"
+          variant="icon"
+          aria-label="Вид каталога (иконки)"
+        />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseRadioGroup</p>
+      <h2 class="h2">Радио-список</h2>
+      <BaseRadioGroup
+        v-model="radioDelivery"
+        :options="radioOptions"
+        name="kit-delivery"
+        class="kit-radio"
+      />
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseStepper</p>
+      <h2 class="h2">Шаги оформления</h2>
+      <BaseStepper :steps="stepperSteps" :current="1" />
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseSkeleton</p>
+      <h2 class="h2">Скелетоны</h2>
+      <div class="grid-3 kit-skeleton-grid">
+        <BaseSkeleton shape="text" :lines="3" width="100%" />
+        <BaseSkeleton shape="rect" width="100%" height="120px" />
+        <BaseSkeleton shape="circle" width="64px" />
+        <BaseSkeleton shape="line" width="60%" />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseEmptyState</p>
+      <h2 class="h2">Пустое состояние</h2>
+      <div class="kit-empty">
+        <BaseEmptyState
+          title="Ничего не найдено"
+          description="Попробуйте изменить параметры поиска или сбросить фильтры."
+          icon="search"
+        >
+          <template #action>
+            <BaseButton variant="outline">Сбросить фильтры</BaseButton>
+          </template>
+        </BaseEmptyState>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseGallery</p>
+      <h2 class="h2">Галерея товара</h2>
+      <div class="kit-gallery">
+        <BaseGallery v-model:active-index="galleryIndex" :images="galleryImages" />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -539,6 +679,29 @@ const categoryOptions = [
 
 .kit-dropdown {
   align-items: flex-start;
+}
+
+.kit-segmented {
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+
+.kit-radio {
+  max-width: 420px;
+}
+
+.kit-skeleton-grid {
+  align-items: flex-start;
+}
+
+.kit-empty {
+  max-width: 480px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.kit-gallery {
+  max-width: 440px;
 }
 
 .kit-spinner {
