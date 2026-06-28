@@ -20,6 +20,7 @@ import BaseSelect from '@/components/common/BaseSelect.vue'
 import BaseTag from '@/components/common/BaseTag.vue'
 import BaseTextarea from '@/components/common/BaseTextarea.vue'
 import BaseToast from '@/components/common/BaseToast.vue'
+import BaseTooltip from '@/components/common/BaseTooltip.vue'
 
 import { useToastStore } from '@/stores/toast'
 
@@ -440,6 +441,34 @@ const categoryOptions = [
     </section>
 
     <section class="section">
+      <p class="eyebrow">BaseTooltip</p>
+      <h2 class="h2">Тултипы</h2>
+      <p class="meta kit-tooltip-help">
+        Наведите или сфокусируйте (Tab) триггер. Позиционирование — CSS, относительно обёртки
+        <code>.tooltip-trigger</code>.
+      </p>
+      <div class="kit-tooltip-grid">
+        <BaseTooltip content="Наверх" placement="top">
+          <BaseButton variant="secondary">Top</BaseButton>
+        </BaseTooltip>
+        <BaseTooltip content="Вправо" placement="right">
+          <BaseButton variant="secondary">Right</BaseButton>
+        </BaseTooltip>
+        <BaseTooltip content="Вниз" placement="bottom">
+          <BaseButton variant="secondary">Bottom</BaseButton>
+        </BaseTooltip>
+        <BaseTooltip content="Влево" placement="left">
+          <BaseButton variant="secondary">Left</BaseButton>
+        </BaseTooltip>
+        <BaseTooltip content="Добавить в избранное">
+          <BaseIconButton label="В избранное">
+            <template #icon><BaseIcon name="heart" /></template>
+          </BaseIconButton>
+        </BaseTooltip>
+      </div>
+    </section>
+
+    <section class="section">
       <p class="eyebrow">BaseBreadcrumb</p>
       <h2 class="h2">Хлебные крошки</h2>
       <div class="stack kit-crumb">
@@ -489,6 +518,20 @@ const categoryOptions = [
 }
 
 .kit-toast-help code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--accent);
+}
+
+.kit-tooltip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-8);
+  padding: var(--sp-8) var(--sp-4);
+}
+
+.kit-tooltip-help code {
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
   color: var(--accent);
