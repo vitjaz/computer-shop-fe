@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 import BaseBadge from '@/components/common/BaseBadge.vue'
+import BaseAlert from '@/components/common/BaseAlert.vue'
 import BaseBreadcrumb from '@/components/common/BaseBreadcrumb.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import BaseCard from '@/components/common/BaseCard.vue'
@@ -282,6 +283,38 @@ const categoryOptions = [
     </section>
 
     <section class="section">
+      <p class="eyebrow">BaseAlert</p>
+      <h2 class="h2">Уведомления</h2>
+      <div class="stack kit-alerts">
+        <BaseAlert variant="info" title="Информация">
+          <template #icon><BaseIcon name="search" /></template>
+          Сравнение товаров обновлено.
+        </BaseAlert>
+
+        <BaseAlert variant="success" title="Готово">
+          <template #icon><BaseIcon name="check" /></template>
+          Купон SBORKA5 применён.
+          <template #action>
+            <BaseButton variant="ghost" size="sm">Отменить</BaseButton>
+          </template>
+        </BaseAlert>
+
+        <BaseAlert variant="warning">
+          <template #icon><BaseIcon name="heart" /></template>
+          Осталось 2 товара на складе.
+        </BaseAlert>
+
+        <BaseAlert variant="danger" title="Ошибка">
+          <template #icon><BaseIcon name="close" /></template>
+          Не удалось оформить заказ.
+          <template #action>
+            <BaseButton variant="ghost" size="sm">Повторить</BaseButton>
+          </template>
+        </BaseAlert>
+      </div>
+    </section>
+
+    <section class="section">
       <p class="eyebrow">BaseBreadcrumb</p>
       <h2 class="h2">Хлебные крошки</h2>
       <div class="stack kit-crumb">
@@ -316,6 +349,10 @@ const categoryOptions = [
 
 .kit-form {
   max-width: 720px;
+}
+
+.kit-alerts {
+  max-width: 560px;
 }
 
 .kit-spinner {
