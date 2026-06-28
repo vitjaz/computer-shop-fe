@@ -587,18 +587,56 @@ h4 {
   line-height: 1.55;
 }
 
+.check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .check {
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
   font-size: var(--fs-sm);
   color: var(--fg-2);
-  cursor: pointer;
 }
 .check input {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--accent);
+  display: none;
+}
+.check .box {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 4px;
+  background: var(--surface);
+  flex-shrink: 0;
+  position: relative;
+  transition: all var(--motion-fast) var(--ease);
+}
+.check input:checked + .box {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.check input:checked + .box::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid var(--accent-on);
+  border-bottom: 2px solid var(--accent-on);
+  transform: rotate(45deg);
+}
+.check .count {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--meta);
+}
+.check.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* чип-строка (категории, табы) */
