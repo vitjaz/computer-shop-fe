@@ -1393,6 +1393,58 @@ h4 {
   display: block;
 }
 
+/* ─── пагинация ───────────────────────────────────────────────────── */
+.pager {
+  margin-top: var(--sp-10);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-4);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--border);
+}
+.pager-info {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--meta);
+}
+.pager-pages {
+  display: flex;
+  gap: var(--sp-1);
+  align-items: center;
+}
+.pager-pages button {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  transition:
+    background var(--motion-fast) var(--ease),
+    color var(--motion-fast) var(--ease);
+}
+.pager-pages button:hover {
+  background: var(--surface);
+  color: var(--fg);
+}
+.pager-pages button.active {
+  background: var(--fg);
+  color: var(--surface);
+}
+.pager-pages button:disabled {
+  opacity: 1;
+  pointer-events: none;
+}
+.pager-pages .dots {
+  color: var(--meta);
+  padding: 0 var(--sp-1);
+}
+
 /* ─── утилиты ─────────────────────────────────────────────────────── */
 .hide-mobile {
 }
