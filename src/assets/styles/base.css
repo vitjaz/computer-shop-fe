@@ -1676,6 +1676,103 @@ h4 {
   margin-top: var(--sp-4);
 }
 
+/* ─── галерея товара ──────────────────────────────────────────────── */
+.gallery {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+.gallery-main {
+  aspect-ratio: 1 / 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery-main .ph-img {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  border-radius: inherit;
+  aspect-ratio: auto;
+}
+.gallery-nav {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  display: flex;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+}
+.gallery-nav button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--motion-fast) var(--ease),
+    color var(--motion-fast) var(--ease);
+}
+.gallery-nav button:hover:not(:disabled) {
+  background: var(--surface-warm);
+  color: var(--fg);
+}
+.gallery-nav button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.gallery-nav button svg {
+  width: 16px;
+  height: 16px;
+}
+.thumbs {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+.thumb {
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-fast) var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.thumb:hover {
+  border-color: var(--border-soft);
+}
+.thumb.active {
+  border-color: var(--accent);
+  border-width: 2px;
+}
+
 /* ─── утилиты ─────────────────────────────────────────────────────── */
 .hide-mobile {
 }
