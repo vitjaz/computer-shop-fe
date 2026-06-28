@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>КОМПОНЕНТА — Макеты UI · design-from-opendesign</title>
+<style>
+  :root {
+    --bg: #f5f4ed;
+    --surface: #faf9f5;
+    --surface-warm: #e8e6dc;
+    --fg: #141413;
+    --fg-2: #3d3d3a;
+    --muted: #5e5d59;
+    --meta: #87867f;
+    --border: #f0eee6;
+    --border-soft: #e8e6dc;
+    --accent: #c96442;
+    --accent-on: #faf9f5;
+    --font-display: Georgia, "Times New Roman", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    --font-mono: ui-monospace, "JetBrains Mono", Menlo, monospace;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--fg); }
+  body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 96px;
+  }
+
+  /* ── Header ───────────────────────────────────────────────── */
+  .topbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .brand-dot { color: var(--accent); }
+  .topbar-meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--meta);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ── Intro ────────────────────────────────────────────────── */
+  .intro {
+    padding: 64px 0 56px;
+    max-width: 760px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .intro h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+  .intro h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .intro p {
+    font-size: 18px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── Screens grid ─────────────────────────────────────────── */
+  .section-label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 16px 0 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .section-label h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 24px;
+  }
+  .section-label span {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--meta);
+    letter-spacing: 0.06em;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  .screen-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform 200ms cubic-bezier(0.2,0,0,1),
+                box-shadow 200ms cubic-bezier(0.2,0,0,1);
+  }
+  .screen-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 1px var(--border-soft),
+                rgba(0,0,0,0.05) 0 12px 32px;
+  }
+
+  /* Thumbnail mock — miniature of each screen */
+  .thumb {
+    aspect-ratio: 16 / 11;
+    background: var(--bg);
+    padding: 18px;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+  }
+  .thumb-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 7px;
+  }
+
+  /* Catalog thumb */
+  .ti-catalog { display: grid; grid-template-columns: 28% 1fr; gap: 6px; }
+  .ti-catalog .filters { background: var(--surface-warm); border-radius: 3px; padding: 4px; display: flex; flex-direction: column; gap: 3px; }
+  .ti-catalog .filters span { height: 3px; background: var(--meta); opacity: 0.3; border-radius: 1px; }
+  .ti-catalog .filters span:first-child { background: var(--accent); opacity: 1; width: 70%; }
+  .ti-catalog .grid-items { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .ti-catalog .grid-items div { background: var(--bg); border: 1px solid var(--border); border-radius: 2px; }
+  .ti-catalog .grid-items div::before { content: ""; display: block; height: 60%; background: var(--surface-warm); border-radius: 1px 1px 0 0; }
+
+  /* Product thumb */
+  .ti-product { display: grid; grid-template-columns: 50% 1fr; gap: 8px; }
+  .ti-product .gallery { background: var(--surface-warm); border-radius: 3px; }
+  .ti-product .info { display: flex; flex-direction: column; gap: 4px; padding-top: 4px; }
+  .ti-product .info span { height: 4px; background: var(--fg); opacity: 0.4; border-radius: 1px; }
+  .ti-product .info span:first-child { height: 6px; width: 80%; }
+  .ti-product .info .btn { background: var(--accent); height: 8px; width: 60%; margin-top: 4px; border-radius: 2px; }
+
+  /* Cart thumb */
+  .ti-cart { display: flex; flex-direction: column; gap: 4px; }
+  .ti-cart .row { display: grid; grid-template-columns: 12% 1fr 18%; gap: 6px; background: var(--surface-warm); border-radius: 3px; padding: 5px; align-items: center; }
+  .ti-cart .row div { background: var(--surface); border-radius: 2px; }
+  .ti-cart .row .thumb { aspect-ratio: 1; background: var(--surface); border: 1px solid var(--border); }
+  .ti-cart .row .line { height: 3px; background: var(--fg); opacity: 0.3; border-radius: 1px; }
+  .ti-cart .row .price { height: 5px; background: var(--accent); border-radius: 1px; width: 80%; }
+
+  /* Landing thumb */
+  .ti-landing { display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; text-align: center; }
+  .ti-landing .hero { background: var(--surface-warm); border-radius: 4px; padding: 8px; width: 100%; display: flex; flex-direction: column; gap: 3px; align-items: center; }
+  .ti-landing .hero span { height: 5px; background: var(--fg); border-radius: 1px; }
+  .ti-landing .hero span:nth-child(1) { width: 70%; height: 7px; }
+  .ti-landing .hero span:nth-child(2) { width: 50%; opacity: 0.4; }
+  .ti-landing .hero span:nth-child(3) { background: var(--accent); width: 30%; height: 6px; margin-top: 2px; }
+
+  .card-body {
+    padding: 20px 24px 24px;
+  }
+  .card-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .card-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .card-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg-2);
+    transition: color 150ms;
+  }
+  .screen-card:hover .card-arrow { color: var(--accent); }
+  .card-arrow::after {
+    content: "→";
+    transition: transform 200ms cubic-bezier(0.2,0,0,1);
+  }
+  .screen-card:hover .card-arrow::after { transform: translateX(4px); }
+
+  /* ── Meta panel ───────────────────────────────────────────── */
+  .meta-panel {
+    margin-top: 56px;
+    padding: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+  }
+  .meta-item .meta-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--meta);
+    margin-bottom: 6px;
+  }
+  .meta-item .meta-value {
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--fg);
+  }
+  .meta-item .meta-value small {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ── Footer ───────────────────────────────────────────────── */
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--meta);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="topbar">
+      <div class="brand">КОМПОНЕНТА<span class="brand-dot">.</span></div>
+      <div class="topbar-meta">UI mockups · v1</div>
+    </header>
+
+    <section class="intro">
+      <div class="eyebrow">Макеты интерфейса · 4 экрана</div>
+      <h1>Бутик компьютерных комплектующих.<br>Макеты <em>каталога, карточки, корзины</em> и&nbsp;лендинга.</h1>
+      <p>Статичные дизайн-макеты экранов в редакционной визуальной системе: тёплый пергаментный фон, серифные заголовки, единственный терракотовый акцент. Каждый файл самодостаточен — открывается в браузере как фрейм.</p>
+    </section>
+
+    <div class="section-label">
+      <h2>Экраны</h2>
+      <span>04 / HTML</span>
+    </div>
+
+    <div class="grid">
+
+      <a class="screen-card" href="catalog.html">
+        <div class="thumb">
+          <div class="thumb-inner ti-catalog">
+            <div class="filters">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="grid-items">
+              <div></div><div></div><div></div><div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">01 / КАТАЛОГ</div>
+          <div class="card-title">Каталог товаров</div>
+          <div class="card-desc">9 категорий комплектующих, sidebar-фильтры, сортировка, сравнение и избранное, сетка товаров с quick-view.</div>
+          <span class="card-arrow">Открыть макет</span>
+        </div>
+      </a>
+
+      <a class="screen-card" href="product.html">
+        <div class="thumb">
+          <div class="thumb-inner ti-product">
+            <div class="gallery"></div>
+            <div class="info">
+              <span></span><span></span><span></span>
+              <div class="btn"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">02 / КАРТОЧКА</div>
+          <div class="card-title">Карточка товара</div>
+          <div class="card-desc">Галерея, полные спецификации, наличие и доставка, подбор совместимых компонентов, релевантные товары.</div>
+          <span class="card-arrow">Открыть макет</span>
+        </div>
+      </a>
+
+      <a class="screen-card" href="cart.html">
+        <div class="thumb">
+          <div class="thumb-inner ti-cart">
+            <div class="row">
+              <div class="thumb"></div>
+              <div><div class="line"></div><div class="line" style="width:60%"></div></div>
+              <div class="price"></div>
+            </div>
+            <div class="row">
+              <div class="thumb"></div>
+              <div><div class="line"></div><div class="line" style="width:60%"></div></div>
+              <div class="price"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">03 / КОРЗИНА</div>
+          <div class="card-title">Корзина и оформление</div>
+          <div class="card-desc">Управление количеством, удаление, промокоды, сводка заказа, блок оформления checkout с доставкой и оплатой.</div>
+          <span class="card-arrow">Открыть макет</span>
+        </div>
+      </a>
+
+      <a class="screen-card" href="landing.html">
+        <div class="thumb">
+          <div class="thumb-inner ti-landing">
+            <div class="hero">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-num">04 / ЛЕНДИНГ</div>
+          <div class="card-title">Маркетинговый лендинг</div>
+          <div class="card-desc">Hero, ценностные блоки,Featured-сборки, отзывы и социальное доказательство, CTA на каталог и подписку.</div>
+          <span class="card-arrow">Открыть макет</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="meta-panel">
+      <div class="meta-item">
+        <div class="meta-label">Магазин</div>
+        <div class="meta-value">КОМПОНЕНТА<small>Бутик комплектующих</small></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Валюты</div>
+        <div class="meta-value">₽<small>Российский рубль</small></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Категорий</div>
+        <div class="meta-value">9<small>CPU · GPU · RAM и др.</small></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Дизайн-система</div>
+        <div class="meta-value">Claude<small>Пергамент · терракот</small></div>
+      </div>
+    </div>
+
+    <footer>
+      <span>design-from-opendesign / index.html</span>
+      <span>макеты UI · 2026</span>
+    </footer>
+
+  </div>
+</body>
+</html>

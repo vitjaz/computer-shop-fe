@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "design-from-opendesign/catalog.html",
+  "entry": "design-from-opendesign/catalog.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-22T16:27:56.284Z",
+  "updatedAt": "2026-06-22T16:27:56.284Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}
