@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import BaseBadge from '@/components/common/BaseBadge.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
+import BaseCard from '@/components/common/BaseCard.vue'
 import BaseCheckbox from '@/components/common/BaseCheckbox.vue'
 import BaseField from '@/components/common/BaseField.vue'
 import BaseIcon from '@/components/common/BaseIcon.vue'
@@ -9,6 +11,7 @@ import BaseIconButton from '@/components/common/BaseIconButton.vue'
 import BaseInput from '@/components/common/BaseInput.vue'
 import BaseQty from '@/components/common/BaseQty.vue'
 import BaseSelect from '@/components/common/BaseSelect.vue'
+import BaseTag from '@/components/common/BaseTag.vue'
 import BaseTextarea from '@/components/common/BaseTextarea.vue'
 
 const iconNames = [
@@ -188,6 +191,51 @@ const categoryOptions = [
         <BaseQty v-model="qtyDefault" :min="1" :max="10" />
         <BaseQty v-model="qtySm" :min="1" :max="10" size="sm" />
         <BaseQty v-model="qtyLg" :min="1" :max="99" size="lg" />
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseCard</p>
+      <h2 class="h2">Поверхности</h2>
+      <div class="grid-3 kit-surfaces">
+        <BaseCard>
+          <h3 class="h4">Обычная карточка</h3>
+          <p class="meta">.card — фоновая поверхность с рамкой.</p>
+        </BaseCard>
+
+        <BaseCard hover>
+          <h3 class="h4">С hover</h3>
+          <p class="meta">.card .card-hover — при наведении подъём.</p>
+        </BaseCard>
+
+        <BaseCard flat>
+          <h3 class="h4">Плоская</h3>
+          <p class="meta">.card .card-flat — без фона и отступов.</p>
+        </BaseCard>
+
+        <BaseCard as="article" hover>
+          <h3 class="h4">Произвольный тег</h3>
+          <p class="meta">as="article" — семантическая обёртка.</p>
+        </BaseCard>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseBadge · BaseTag</p>
+      <h2 class="h2">Пилюли и теги</h2>
+      <div class="stack">
+        <div class="row wrap">
+          <BaseBadge>Акция</BaseBadge>
+          <BaseBadge variant="success">В наличии</BaseBadge>
+          <BaseBadge variant="neutral">Б/у</BaseBadge>
+        </div>
+
+        <div class="row wrap">
+          <BaseTag>DDR5</BaseTag>
+          <BaseTag>AM5</BaseTag>
+          <BaseTag>32 ГБ</BaseTag>
+          <BaseTag>7200 МГц</BaseTag>
+        </div>
       </div>
     </section>
   </div>
