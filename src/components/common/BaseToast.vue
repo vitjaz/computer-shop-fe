@@ -19,7 +19,7 @@ defineEmits<{
 <template>
   <div :class="['toast', `toast--${variant}`]" role="status">
     <div class="toast-body">{{ message }}</div>
-    <button class="toast-close iconbtn" aria-label="Закрыть" @click="$emit('dismiss', id)">
+    <button class="toast-close" aria-label="Закрыть" @click="$emit('dismiss', id)">
       ×
     </button>
   </div>
