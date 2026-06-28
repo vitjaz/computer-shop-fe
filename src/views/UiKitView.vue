@@ -5,6 +5,7 @@ import BaseBadge from '@/components/common/BaseBadge.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import BaseCard from '@/components/common/BaseCard.vue'
 import BaseCheckbox from '@/components/common/BaseCheckbox.vue'
+import BaseChip from '@/components/common/BaseChip.vue'
 import BaseField from '@/components/common/BaseField.vue'
 import BaseIcon from '@/components/common/BaseIcon.vue'
 import BaseIconButton from '@/components/common/BaseIconButton.vue'
@@ -41,6 +42,8 @@ const checkDisabled = ref(false)
 const qtyDefault = ref(1)
 const qtySm = ref(2)
 const qtyLg = ref(1)
+const chipCpu = ref(false)
+const chipGpu = ref(true)
 
 const categoryOptions = [
   { value: 'cpu', label: 'Процессоры' },
@@ -235,6 +238,24 @@ const categoryOptions = [
           <BaseTag>AM5</BaseTag>
           <BaseTag>32 ГБ</BaseTag>
           <BaseTag>7200 МГц</BaseTag>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">BaseChip</p>
+      <h2 class="h2">Чипы</h2>
+      <div class="stack">
+        <div class="row wrap">
+          <BaseChip :pressed="chipCpu" @toggle="chipCpu = !chipCpu">Процессоры</BaseChip>
+          <BaseChip :pressed="chipGpu" @toggle="chipGpu = !chipGpu">Видеокарты</BaseChip>
+          <BaseChip>Память</BaseChip>
+        </div>
+
+        <div class="row wrap">
+          <BaseChip variant="accent">Акцентный</BaseChip>
+          <BaseChip removable>AMD Ryzen 7</BaseChip>
+          <BaseChip removable variant="accent">−20%</BaseChip>
         </div>
       </div>
     </section>
